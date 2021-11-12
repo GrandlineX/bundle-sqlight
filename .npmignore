@@ -20,6 +20,7 @@ tsconfig.json
 sonar-project.properties
 coverage
 *.tgz
+*.iml
 .ncurc.json
 .npmrc
 junit.xml
