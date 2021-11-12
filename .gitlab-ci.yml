@@ -1,0 +1,251 @@
+stages:
+  - test
+  - scan
+  - docs
+  - build
+  - publish
+
+cache:
+  paths:
+    - node_modules/
+
+docs:
+  allow_failure: true
+  image: ${DOCKER_IMG_PRE}node:latest
+  tags:
+    - docker
+  stage: docs
+  only:
+    - tags
+    - /^v(\d+\.)?(\d+\.)?(\*|\d+)$/
+  except:
+    - branches
+  script:
+    - npm install
+    - npm run makeDocs
+  artifacts:
+    paths:
+      - "docs"
+    expire_in: 30 days
+
+# PROD BUIDL
+
+report:test:prod:
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  before_script:
+    - cp $TESTENVFILE .env
+  services:
+     - name: ${DOCKER_IMG_PRE}postgres:latest
+       alias: postgres
+     - name: ${DOCKER_IMG_PRE}redis:alpine
+       alias: redis
+  variables:
+    POSTGRES_USER: $POSTGRES_USER
+    POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    POSTGRES_HOST_AUTH_METHOD: trust
+  image: ${DOCKER_IMG_PRE}node:latest
+  tags:
+    - docker
+  stage: test
+  only:
+    - tags
+    - /^v(\d+\.)?(\d+\.)?(\*|\d+)$/
+  except:
+    - branches
+  script:
+    - npm install
+    - npm run test-converage
+  artifacts:
+    paths:
+      - coverage
+    when: always
+    reports:
+      junit:
+        - junit.xml
+      cobertura: coverage/cobertura-coverage.xml
+  needs: []
+
+
+
+lint:scan:prod:
+  allow_failure: false
+  image: ${DOCKER_IMG_PRE}node:latest
+  tags:
+    - docker
+  stage: scan
+  only:
+    - tags
+    - /^v(\d+\.)?(\d+\.)?(\*|\d+)$/
+  except:
+    - branches
+  script:
+    - npm install
+    - npm run lint
+  needs: []
+
+'sonar:scan:prod':
+  allow_failure: true
+  image: ${DOCKER_IMG_PRE}sonarsource/sonar-scanner-cli
+  stage: scan
+  tags:
+    - docker
+  only:
+    - tags
+    - /^v(\d+\.)?(\d+\.)?(\*|\d+)$/
+  script:
+    - sonar-scanner -Dsonar.login=$sonar_key -Dsonar.host.url=$sonar_url
+  needs:
+    - report:test:prod
+
+
+sec:scan:prod:
+  before_script:
+    - cp $TESTENVFILE .env
+  image: registry.gitlab.com/gitlab-org/security-products/analyzers/eslint
+  tags:
+    - docker
+  stage: scan
+  only:
+    - tags
+    - /^v(\d+\.)?(\d+\.)?(\*|\d+)$/
+  except:
+    - branches
+  script:
+    - /analyzer run
+  artifacts:
+    when: always
+    reports:
+      sast: gl-sast-report.json
+  needs:
+    - report:test:prod
+
+
+make:build:prod:
+  image: ${DOCKER_IMG_PRE}node:latest
+  tags:
+    - docker
+  stage: build
+  only:
+    - tags
+    - /^v(\d+\.)?(\d+\.)?(\*|\d+)$/
+  except:
+    - branches
+  script:
+    - npm install
+    - npm run buildprep
+  needs:
+    - lint:scan:prod
+    - sec:scan:prod
+    - sonar:scan:prod
+  artifacts:
+    paths:
+      - dist
+    expire_in: 7 days
+
+
+package:peploy:prod:
+  image: ${DOCKER_IMG_PRE}node:latest
+  tags:
+    - docker
+  stage: publish
+  only:
+    - tags
+    - /^v(\d+\.)?(\d+\.)?(\*|\d+)$/
+  except:
+    - branches
+  before_script:
+    - cp $NPM_DEPLOY ./.npmrc
+  after_script:
+    - rm ./.npmrc
+  script:
+    - npm publish
+    - npm pack
+  needs:
+    - make:build:prod
+  artifacts:
+    paths:
+      - ./*.tgz
+
+test:test:dev:
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  before_script:
+    - cp $TESTENVFILE .env
+  services:
+    - name: ${DOCKER_IMG_PRE}postgres:latest
+      alias: postgres
+    - name: ${DOCKER_IMG_PRE}redis:alpine
+      alias: redis
+  variables:
+    POSTGRES_USER: $POSTGRES_USER
+    POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    POSTGRES_HOST_AUTH_METHOD: trust
+  image: ${DOCKER_IMG_PRE}node:latest
+  tags:
+    - docker
+  stage: test
+  only:
+    - merge_requests
+    - dev
+    - master
+  script:
+    - npm install
+    - npm run test-converage
+  artifacts:
+    paths:
+      - coverage
+    when: always
+    reports:
+      junit:
+        - junit.xml
+      cobertura: coverage/cobertura-coverage.xml
+
+lint:scan:dev:
+  allow_failure: true
+  image: ${DOCKER_IMG_PRE}node:latest
+  tags:
+    - docker
+  stage: scan
+  only:
+    - merge_requests
+    - dev
+    - master
+  script:
+    - npm install
+    - npm run lint
+
+
+sec:scan:dev:
+  before_script:
+    - cp $TESTENVFILE .env
+  image: registry.gitlab.com/gitlab-org/security-products/analyzers/eslint
+  tags:
+    - docker
+  stage: scan
+  only:
+    - merge_requests
+    - dev
+    - master
+  script:
+    - /analyzer run
+  artifacts:
+    when: always
+    reports:
+      sast: gl-sast-report.json
+
+make:build:dev:
+  image: ${DOCKER_IMG_PRE}node:latest
+  tags:
+    - docker
+  stage: build
+  only:
+    - merge_requests
+    - dev
+    - master
+  script:
+    - npm install
+    - npm run buildprep
+    - npm pack
+  artifacts:
+    paths:
+      - ./*.tgz
+    expire_in: 14 days
