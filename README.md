@@ -13,16 +13,16 @@ GrandLineX is an out-of-the-box server framework.
 
 
 ### Status
-![Quality Gate Status](https://pop.echo4.eu/api/project_badges/measure?project=GrandLineX-Bundle-SQLight&metric=alert_status)
-![Security Rating](https://pop.echo4.eu/api/project_badges/measure?project=GrandLineX-Bundle-SQLight&metric=security_rating)
-![Maintainability Rating](https://pop.echo4.eu/api/project_badges/measure?project=GrandLineX-Bundle-SQLight&metric=sqale_rating)
-![Reliability Rating](https://pop.echo4.eu/api/project_badges/measure?project=GrandLineX-Bundle-SQLight&metric=reliability_rating)
-![Coverage](https://pop.echo4.eu/api/project_badges/measure?project=GrandLineX-Bundle-SQLight&metric=coverage)
+![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=GrandlineX_bundle-sqlight&metric=alert_status)
+![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=GrandlineX_bundle-sqlight&metric=security_rating)
+![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=GrandlineX_bundle-sqlight&metric=sqale_rating)
+![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=GrandlineX_bundle-sqlight&metric=reliability_rating)
+![Coverage](https://sonarcloud.io/api/project_badges/measure?project=GrandlineX_bundle-sqlight&metric=coverage)
 
 ### Issues
-![Bugs](https://pop.echo4.eu/api/project_badges/measure?project=GrandLineX-Bundle-SQLight&metric=bugs)
-![Vulnerabilities](https://pop.echo4.eu/api/project_badges/measure?project=GrandLineX-Bundle-SQLight&metric=vulnerabilities)
-![Code Smells](https://pop.echo4.eu/api/project_badges/measure?project=GrandLineX-Bundle-SQLight&metric=code_smells)
+![Bugs](https://sonarcloud.io/api/project_badges/measure?project=GrandlineX_bundle-sqlight&metric=bugs)
+![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=GrandlineX_bundle-sqlight&metric=vulnerabilities)
+![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=GrandlineX_bundle-sqlight&metric=code_smells)
 
 
 ## Documentation

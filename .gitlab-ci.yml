@@ -83,21 +83,6 @@ lint:scan:prod:
     - npm run lint
   needs: []
 
-'sonar:scan:prod':
-  allow_failure: true
-  image: ${DOCKER_IMG_PRE}sonarsource/sonar-scanner-cli
-  stage: scan
-  tags:
-    - docker
-  only:
-    - tags
-    - /^v(\d+\.)?(\d+\.)?(\*|\d+)$/
-  script:
-    - sonar-scanner -Dsonar.login=$sonar_key -Dsonar.host.url=$sonar_url
-  needs:
-    - report:test:prod
-
-
 sec:scan:prod:
   before_script:
     - cp $TESTENVFILE .env
@@ -136,7 +121,6 @@ make:build:prod:
   needs:
     - lint:scan:prod
     - sec:scan:prod
-    - sonar:scan:prod
   artifacts:
     paths:
       - dist
@@ -198,6 +182,34 @@ test:test:dev:
       junit:
         - junit.xml
       cobertura: coverage/cobertura-coverage.xml
+
+
+'sonar:scan:dev':
+  allow_failure: true
+  image: ${DOCKER_IMG_PRE}sonarsource/sonar-scanner-cli
+  stage: scan
+  tags:
+    - docker
+  only:
+    - dev
+  script:
+    - sonar-scanner -Dsonar.login=$sonar_key -Dsonar.host.url=$sonar_url -Dsonar.branch.name=dev
+  needs:
+    - test:test:dev
+
+'sonar:scan:master':
+  allow_failure: true
+  image: ${DOCKER_IMG_PRE}sonarsource/sonar-scanner-cli
+  stage: scan
+  tags:
+    - docker
+  only:
+    - master
+  script:
+    - sonar-scanner -Dsonar.login=$sonar_key -Dsonar.host.url=$sonar_url -Dsonar.branch.name=master
+  needs:
+    - test:test:dev
+
 
 lint:scan:dev:
   allow_failure: true
