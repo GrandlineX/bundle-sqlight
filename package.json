@@ -10,6 +10,7 @@
     "test": "jest --runInBand ",
     "run": "ts-node tests/run.ts",
     "test-converage": "jest --runInBand --ci --collectCoverage   --coverageDirectory=\"./coverage\"  --reporters=default --reporters=jest-junit",
+    "doc-converage": "jest --runInBand --ci --collectCoverage   --coverageDirectory=\"./docs/coverage\"  --reporters=default --reporters=jest-junit",
     "makeDocs": "typedoc"
   },
   "keywords": [

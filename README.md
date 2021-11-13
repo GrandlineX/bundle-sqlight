@@ -24,7 +24,8 @@ GrandLineX is an out-of-the-box server framework.
 ![Vulnerabilities](https://pop.echo4.eu/api/project_badges/measure?project=GrandLineX-Bundle-SQLight&metric=vulnerabilities)
 ![Code Smells](https://pop.echo4.eu/api/project_badges/measure?project=GrandLineX-Bundle-SQLight&metric=code_smells)
 
- 
 
-## Documentation 
-- [Docs](https://grandlinex.github.io/docs/)
+## Documentation
+- [Documentation](https://grandlinex.github.io/bundle-sqlight/)
+- [Test Report](https://grandlinex.github.io/bundle-sqlight/coverage)
+- [GrandLineX Docs](https://grandlinex.github.io/docs/)
