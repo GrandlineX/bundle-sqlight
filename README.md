@@ -27,5 +27,5 @@ GrandLineX is an out-of-the-box server framework.
 
 ## Documentation
 - [Documentation](https://grandlinex.github.io/bundle-sqlight/)
-- [Test Report](https://grandlinex.github.io/bundle-sqlight/coverage)
+- [Test Report](https://grandlinex.github.io/bundle-sqlight/coverage/)
 - [GrandLineX Docs](https://grandlinex.github.io/docs/)

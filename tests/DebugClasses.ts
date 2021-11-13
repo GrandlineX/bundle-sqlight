@@ -2,15 +2,11 @@ import CoreKernel, {
   CoreClient,
   CoreCryptoClient, CoreDBCon,
   CoreEntity,
-  CoreKernelModule, CoreLoopService,
+  CoreKernelModule,
   ICoreCClient, ICoreKernelModule,
-  OfflineService,
-  sleep
-} from "@grandlinex/core";
+  OfflineService,} from "@grandlinex/core";
 import CoreDBUpdate from "@grandlinex/core/dist/classes/CoreDBUpdate";
-import SQLCon from "../src/class/SQLCon";
-
-
+import SQLCon from "../src/";
 
 type TCoreKernel=CoreKernel<ICoreCClient>;
 
