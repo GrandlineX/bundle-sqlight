@@ -124,7 +124,7 @@ export default abstract class SQLCon
   private readonly path: string;
 
   protected constructor(
-    module: ICoreKernelModule<CoreKernel<any>, any, any, any, any>,
+    module: ICoreKernelModule<any, any, any, any, any>,
     dbversion: string
   ) {
     super(dbversion, 'main', module);
