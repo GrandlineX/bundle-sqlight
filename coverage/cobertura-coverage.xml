@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
-<coverage lines-valid="127" lines-covered="112" line-rate="0.8818" branches-valid="85" branches-covered="59" branch-rate="0.6940999999999999" timestamp="1636902378980" complexity="0" version="0.1">
+<coverage lines-valid="127" lines-covered="112" line-rate="0.8818" branches-valid="85" branches-covered="59" branch-rate="0.6940999999999999" timestamp="1636902603874" complexity="0" version="0.1">
   <sources>
     <source>/home/runner/work/bundle-sqlight/bundle-sqlight</source>
   </sources>
