@@ -72,11 +72,14 @@ class TestEntity extends CoreEntity{
   name:string
   address?:string
   age:number
-  constructor(name:string,age:number,address?:string) {
-    super(0);
-    this.name=name
-    this.age=age
-    this.address=address;
+  time?:Date
+
+  constructor( name: string,age: number ,address?: string , time?: Date) {
+    super( 0 );
+    this.name = name;
+    this.address = address;
+    this.age = age;
+    this.time = time;
   }
 }
 class TestModuel extends CoreKernelModule<TCoreKernel,TestDB,TestClient,null,null>{
@@ -88,7 +91,7 @@ class TestModuel extends CoreKernelModule<TCoreKernel,TestDB,TestClient,null,nul
     this.setClient(new TestClient("testc",this))
     this.log("FirstTHIS")
     const db=new TestDB(this)
-    db.registerEntity(new TestEntity("",0,""))
+    db.registerEntity(new TestEntity("",0,"",new Date()))
     this.setDb(db)
     db.setUpdateChain(new TestDBUpdate(this.getDb() as CoreDBCon<any,any>))
   }
