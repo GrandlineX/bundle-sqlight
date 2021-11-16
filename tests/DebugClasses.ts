@@ -44,7 +44,7 @@ class TestClient extends CoreClient{
 
 }
 
-
+ 
 class TestDB extends SQLCon{
   constructor(module:ICoreKernelModule<any, any, any, any, any>) {
     super(module,"0");
@@ -67,6 +67,20 @@ class TestDBUpdate extends CoreDBUpdate<any,any>{
     return true;
   }
 
+}
+   class ExampleEntity extends CoreEntity {
+  title: string;
+
+  age?: number;
+
+  description?: string;
+
+  constructor(title: string, age?: number, description?: string) {
+    super(0);
+    this.title = title;
+    this.age = age;
+    this.description = description;
+  }
 }
 class TestEntity extends CoreEntity{
   name:string
@@ -92,6 +106,7 @@ class TestModuel extends CoreKernelModule<TCoreKernel,TestDB,TestClient,null,nul
     this.log("FirstTHIS")
     const db=new TestDB(this)
     db.registerEntity(new TestEntity("",0,"",new Date()))
+    db.registerEntity(new ExampleEntity("",0,""))
     this.setDb(db)
     db.setUpdateChain(new TestDBUpdate(this.getDb() as CoreDBCon<any,any>))
   }
@@ -118,4 +133,5 @@ export {
   TestDBUpdate,
   TestEntity,
   TestModuel,
+  ExampleEntity
  }

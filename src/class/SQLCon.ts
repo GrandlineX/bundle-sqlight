@@ -12,6 +12,28 @@ import Database = require('better-sqlite3');
 
 type DbType = Database.Database;
 
+function buildSearchQ<E>(
+  search: { [P in keyof E]?: E[P] },
+  param: any[],
+  searchQ: string
+) {
+  let temp = searchQ;
+  const keys: (keyof E)[] = Object.keys(search) as (keyof E)[];
+  if (keys.length > 0) {
+    const filter: string[] = [];
+    for (const key of keys) {
+      if (search[key] !== undefined) {
+        filter.push(`${key} = ?`);
+        param.push(search[key]);
+      }
+    }
+    if (filter.length > 0) {
+      temp = ` WHERE ${filter.join(' AND ')}`;
+    }
+  }
+  return temp;
+}
+
 export default abstract class SQLCon
   extends CoreDBCon<DbType, RunResult>
   implements IDataBase<DbType, RunResult>
@@ -35,7 +57,10 @@ export default abstract class SQLCon
     this.db = null;
   }
 
-  async createEntity<E extends CoreEntity>(entity: E): Promise<E | null> {
+  async createEntity<E extends CoreEntity>(
+    className: string,
+    entity: E
+  ): Promise<E | null> {
     const clone: any = entity;
     const keys = Object.keys(entity) as (keyof E)[];
     const param: any[] = [];
@@ -51,9 +76,7 @@ export default abstract class SQLCon
     });
     const res = await this.execScripts([
       {
-        exec: `INSERT INTO ${this.schemaName}.${
-          entity.constructor.name
-        }(${keys.join(', ')})
+        exec: `INSERT INTO ${this.schemaName}.${className}(${keys.join(', ')})
                        VALUES (${vals.join(', ')})`,
         param,
       },
@@ -65,11 +88,39 @@ export default abstract class SQLCon
     return clone;
   }
 
-  async updateEntity<E extends CoreEntity>(entity: E): Promise<E | null> {
+  async updateEntity<E extends CoreEntity>(
+    className: string,
+    entity: E
+  ): Promise<E | null> {
     if (entity.e_id) {
-      await this.deleteEntityById(entity.constructor.name, entity.e_id);
-      await this.createEntity(entity);
-      return entity;
+      const clone: any = entity;
+      const keys = Object.keys(entity);
+      const param: any[] = [];
+      const vals: string[] = [];
+      let index = 1;
+      keys.forEach((key) => {
+        if (key === 'e_id') {
+          return;
+        }
+        const cur = clone[key];
+        if (cur instanceof Date) {
+          param.push(cur.toString());
+        } else {
+          param.push(cur);
+        }
+        vals.push(`${key}=?`);
+        index++;
+      });
+      const result = await this.execScripts([
+        {
+          exec: `UPDATE ${this.schemaName}.${className} SET ${vals.join(
+            ', '
+          )} WHERE e_id=${entity.e_id};`,
+          param,
+        },
+      ]);
+
+      return result[0] !== null ? clone : null;
     }
     return null;
   }
@@ -86,6 +137,25 @@ export default abstract class SQLCon
     return query?.get() || null;
   }
 
+  async findEntity<E extends CoreEntity>(
+    className: string,
+    search: { [P in keyof E]?: E[P] | undefined }
+  ): Promise<E | null> {
+    let searchQ = '';
+    const param: any[] = [];
+
+    searchQ = buildSearchQ<E>(search, param, searchQ);
+
+    const query = this.db?.prepare(
+      `SELECT * FROM ${this.schemaName}.${className}${searchQ};`
+    );
+
+    if (query) {
+      return query.get(param) || null;
+    }
+    return null;
+  }
+
   async deleteEntityById(className: string, id: number): Promise<boolean> {
     const query = this.db?.prepare(
       `DELETE
@@ -98,25 +168,13 @@ export default abstract class SQLCon
   async getEntityList<E extends CoreEntity>(
     className: string,
     search: {
-      [P in keyof E]: E[P];
+      [P in keyof E]?: E[P];
     }
   ): Promise<E[]> {
     let searchQ = '';
     const param: any[] = [];
     if (search) {
-      const keys: (keyof E)[] = Object.keys(search) as (keyof E)[];
-      if (keys.length > 0) {
-        const filter: string[] = [];
-        for (const key of keys) {
-          if (search[key] !== undefined) {
-            filter.push(`${key} = ?`);
-            param.push(search[key]);
-          }
-        }
-        if (filter.length > 0) {
-          searchQ = ` WHERE ${filter.join(' AND ')}`;
-        }
-      }
+      searchQ = buildSearchQ(search, param, searchQ);
     }
     const query = this.db?.prepare(
       `SELECT *
@@ -125,10 +183,13 @@ export default abstract class SQLCon
     return query?.all(param) || [];
   }
 
-  async initEntity<E extends CoreEntity>(entity: E): Promise<boolean> {
+  async initEntity<E extends CoreEntity>(
+    className: string,
+    entity: E
+  ): Promise<boolean> {
     await this.execScripts([
       {
-        exec: `CREATE TABLE ${this.schemaName}.${entity.constructor.name}
+        exec: `CREATE TABLE ${this.schemaName}.${className}
                        (
                            ${this.transformEntityKeys<E>(entity)}
                        );`,
