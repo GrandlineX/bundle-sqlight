@@ -4,35 +4,22 @@ import {
   ConfigType,
   CoreDBCon,
   CoreEntity,
+  EntityConfig,
+  getColumnMeta,
   ICoreKernelModule,
   IDataBase,
+  RawQuery,
 } from '@grandlinex/core';
-import { RawQuery } from '@grandlinex/core/dist/lib';
 import Database = require('better-sqlite3');
+import {
+  buildSearchQ,
+  mappingWithDataType,
+  objToTable,
+  rowToObj,
+  tableToObj,
+} from '../util';
 
 type DbType = Database.Database;
-
-function buildSearchQ<E>(
-  search: { [P in keyof E]?: E[P] },
-  param: any[],
-  searchQ: string
-) {
-  let temp = searchQ;
-  const keys: (keyof E)[] = Object.keys(search) as (keyof E)[];
-  if (keys.length > 0) {
-    const filter: string[] = [];
-    for (const key of keys) {
-      if (search[key] !== undefined) {
-        filter.push(`${key} = ?`);
-        param.push(search[key]);
-      }
-    }
-    if (filter.length > 0) {
-      temp = ` WHERE ${filter.join(' AND ')}`;
-    }
-  }
-  return temp;
-}
 
 export default abstract class SQLCon
   extends CoreDBCon<DbType, RunResult>
@@ -58,87 +45,65 @@ export default abstract class SQLCon
   }
 
   async createEntity<E extends CoreEntity>(
-    className: string,
+    config: EntityConfig<E>,
     entity: E
   ): Promise<E | null> {
-    const clone: any = entity;
-    const keys = Object.keys(entity) as (keyof E)[];
-    const param: any[] = [];
-    const vals: string[] = [];
-    keys.forEach((key) => {
-      const cur = clone[key];
-      if (cur instanceof Date) {
-        param.push(cur.toString());
-      } else {
-        param.push(clone[key]);
-      }
-      vals.push('?');
-    });
-    const res = await this.execScripts([
-      {
-        exec: `INSERT INTO ${this.schemaName}.${className}(${keys.join(', ')})
-                       VALUES (${vals.join(', ')})`,
-        param,
-      },
-    ]);
+    const clone: E = entity;
+    const [keys, values, params] = objToTable(entity);
+    const query: RawQuery = {
+      exec: `INSERT INTO ${this.schemaName}.${config.className}(${keys.join(
+        ', '
+      )})
+                       VALUES (${values.join(', ')})`,
+      param: params,
+    };
+    const res = await this.execScripts([query]);
     if (!res || !res[0]) {
       return null;
     }
-    clone.e_id = res[0].lastInsertRowid;
+    clone.e_id = res[0].lastInsertRowid as number;
     return clone;
   }
 
   async updateEntity<E extends CoreEntity>(
-    className: string,
+    config: EntityConfig<E>,
     entity: E
   ): Promise<E | null> {
     if (entity.e_id) {
-      const clone: any = entity;
-      const keys = Object.keys(entity);
-      const param: any[] = [];
-      const vals: string[] = [];
-      let index = 1;
-      keys.forEach((key) => {
-        if (key === 'e_id') {
-          return;
-        }
-        const cur = clone[key];
-        if (cur instanceof Date) {
-          param.push(cur.toString());
-        } else {
-          param.push(cur);
-        }
-        vals.push(`${key}=?`);
-        index++;
-      });
+      const [, values, params] = objToTable(entity, true);
       const result = await this.execScripts([
         {
-          exec: `UPDATE ${this.schemaName}.${className} SET ${vals.join(
-            ', '
-          )} WHERE e_id=${entity.e_id};`,
-          param,
+          exec: `UPDATE ${this.schemaName}.${
+            config.className
+          } SET ${values.join(', ')} WHERE e_id=${entity.e_id};`,
+          param: params,
         },
       ]);
 
-      return result[0] !== null ? clone : null;
+      return result[0] !== null ? entity : null;
     }
     return null;
   }
 
-  getEntityById<E extends CoreEntity>(
-    className: string,
+  async getEntityById<E extends CoreEntity>(
+    config: EntityConfig<E>,
     id: number
   ): Promise<E | null> {
     const query = this.db?.prepare(
       `SELECT *
-             FROM ${this.schemaName}.${className}
+             FROM ${this.schemaName}.${config.className}
              WHERE e_id = ${id};`
     );
-    return query?.get() || null;
+
+    const res = query?.get();
+    if (res) {
+      return rowToObj<E>(config, res);
+    }
+    return null;
   }
 
   async findEntity<E extends CoreEntity>(
-    className: string,
+    config: EntityConfig<E>,
     search: { [P in keyof E]?: E[P] | undefined }
   ): Promise<E | null> {
     let searchQ = '';
@@ -147,11 +112,12 @@ export default abstract class SQLCon
     searchQ = buildSearchQ<E>(search, param, searchQ);
 
     const query = this.db?.prepare(
-      `SELECT * FROM ${this.schemaName}.${className}${searchQ};`
+      `SELECT * FROM ${this.schemaName}.${config.className}${searchQ};`
     );
 
-    if (query) {
-      return query.get(param) || null;
+    const res = query?.get(param);
+    if (res) {
+      return rowToObj<E>(config, res);
     }
     return null;
   }
@@ -166,7 +132,7 @@ export default abstract class SQLCon
   }
 
   async getEntityList<E extends CoreEntity>(
-    className: string,
+    config: EntityConfig<E>,
     search: {
       [P in keyof E]?: E[P];
     }
@@ -178,9 +144,14 @@ export default abstract class SQLCon
     }
     const query = this.db?.prepare(
       `SELECT *
-             FROM ${this.schemaName}.${className} ${searchQ};`
+             FROM ${this.schemaName}.${config.className} ${searchQ};`
     );
-    return query?.all(param) || [];
+
+    const res = query?.all(param);
+    if (res) {
+      return tableToObj<E>(config, res);
+    }
+    return [];
   }
 
   async initEntity<E extends CoreEntity>(
@@ -204,26 +175,23 @@ export default abstract class SQLCon
     const out: string[] = [];
 
     keys.forEach((key) => {
-      if (key === 'e_id') {
+      const meta = getColumnMeta(entity, key);
+      if (meta?.dataType) {
+        mappingWithDataType(meta, out, key);
+      } else if (key === 'e_id') {
         out.push(`e_id INTEGER PRIMARY KEY`);
       } else {
         const type = typeof entity[key];
-        const dat = entity[key] as any;
         switch (type) {
           case 'bigint':
           case 'number':
-            out.push(`${key} INTEGER`);
+            out.push(`${key} INTEGER NOT NULL`);
             break;
           case 'string':
-            out.push(`${key} TEXT`);
-            break;
-          case 'object':
-            if (dat instanceof Date) {
-              out.push(`${key} TIMESTAMP`);
-            }
+            out.push(`${key} TEXT NOT NULL`);
             break;
           default:
-            break;
+            throw Error('TypeNotSupported');
         }
       }
     });

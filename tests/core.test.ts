@@ -1,7 +1,7 @@
 
  import * as Path from 'path';
 
-import { TestEntity, TestKernel } from './DebugClasses';
+import {TestEntity, TestEntityLinked, TestKernel} from './DebugClasses';
  import {
   CoreDBCon,
   CoreEntityWrapper,
@@ -76,14 +76,44 @@ describe('TestDatabase', () => {
 
  describe('Entity', () => {
    let wrapper:undefined|CoreEntityWrapper<TestEntity>=undefined;
+   let wrapper2:undefined|CoreEntityWrapper<TestEntityLinked>=undefined;
 
-   let entity:TestEntity = new TestEntity("Bob",30,"home",new Date());
-   let entity2:TestEntity = new TestEntity("Alice",29 );
+   let entity:TestEntity = new TestEntity({
+     e_id:null,
+     name:"Bob",
+     age:30,
+     address:"home",
+     time:new Date(),
+     raw:null,
+     json:{some:"value"}
+   });
+   let entity2:TestEntity = new TestEntity({
+     e_id:null,
+     name:"Alice",
+     age:29,
+     address:null,
+     time:null,
+     raw:null,
+     json:[{some:"value"},{some:"array"}]
+   });
+   let entity3:TestEntityLinked = new TestEntityLinked({
+     e_id:null,
+     name:"Alice",
+     age:29,
+     address:null,
+     time:null,
+     link:null,
+     raw:Buffer.from("message"),
+     json:null,
+     flag:true,
+     floating:0.9
+   });
 
    test('get wrapper class', async () => {
      const mod=kernel.getChildModule("testModule") as ICoreKernelModule<any, any, any, any, any>;
      const db = mod.getDb() as CoreDBCon<any,any>;
      wrapper=db.getEntityWrapper<TestEntity>("TestEntity")
+     wrapper2=db.getEntityWrapper<TestEntityLinked>("TestEntityLinked")
      expect(wrapper).not.toBeUndefined()
      if (wrapper){
        expect((await wrapper.getObjList()).length).toBe(0)
@@ -105,6 +135,15 @@ describe('TestDatabase', () => {
        expect((await wrapper.getObjList()).length).toBe(2)
      }
    });
+   test('create new 3', async () => {
+     expect(wrapper2).not.toBeUndefined()
+     if (wrapper2){
+       entity3.link=entity.e_id
+       entity3=await wrapper2.createObject(entity3)||entity3;
+       expect(entity2?.e_id).not.toBeNull()
+       expect((await wrapper2.getObjList()).length).toBe(1)
+     }
+   });
    test('get by id', async () => {
      expect(wrapper).not.toBeUndefined()
      expect(entity.e_id).not.toBeNull()
@@ -121,12 +160,12 @@ describe('TestDatabase', () => {
        }))).toHaveLength(1);
      }
    });
-   test('listing search version', async () => {
-     expect(wrapper).not.toBeUndefined()
-     if (wrapper){
-       expect((await wrapper.getObjList({
-         e_version:0
-       }))).toHaveLength(2);
+   test('listing search fk id', async () => {
+     expect(wrapper2).not.toBeUndefined()
+     if (wrapper2){
+       expect((await wrapper2.getObjList({
+         link: entity.e_id,
+       }))).toHaveLength(1);
      }
    });
    test('listing search bob', async () => {
@@ -156,31 +195,6 @@ describe('TestDatabase', () => {
        expect(bonb[0].time).not.toBeNull();
      }
    });
-   test('listing search version no result', async () => {
-     expect(wrapper).not.toBeUndefined()
-     if (wrapper){
-       expect((await wrapper.getObjList({
-         e_version:2
-       }))).toHaveLength(0);
-     }
-   });
-
-   test('find entity', async () => {
-     expect(wrapper).not.toBeUndefined()
-     if (wrapper){
-       expect((await wrapper.findObj({
-         e_version:0
-       }))).not.toBeNull();
-     }
-   });
-   test('find entity no result', async () => {
-     expect(wrapper).not.toBeUndefined()
-     if (wrapper){
-       expect((await wrapper.findObj({
-         e_version:2
-       }))).toBeNull();
-     }
-   });
    test('find entity by id', async () => {
      expect(wrapper).not.toBeUndefined()
      if (wrapper){
@@ -204,10 +218,65 @@ describe('TestDatabase', () => {
    });
    test('delete', async () => {
      expect(wrapper).not.toBeUndefined()
+     expect(wrapper2).not.toBeUndefined()
+
+     if (wrapper2){
+       expect((await wrapper2.getObjList()).length).toBe(1)
+       expect((await wrapper2.delete(entity3.e_id as number))).toBeTruthy();
+       expect((await wrapper2.getObjList()).length).toBe(0)
+     }
      if (wrapper){
        expect((await wrapper.delete(entity.e_id as number))).toBeTruthy();
        expect((await wrapper.getObjList()).length).toBe(1)
        expect((await wrapper.delete(entity2.e_id as number))).toBeTruthy();
+       expect((await wrapper.getObjList()).length).toBe(0)
+     }
+   });
+ })
+ describe('Bulk Entity', () => {
+   let wrapper:undefined|CoreEntityWrapper<TestEntity>=undefined;
+   let idList:number[]=[]
+   let max=100;
+   test('get wrapper class', async () => {
+     const mod=kernel.getChildModule("testModule") as ICoreKernelModule<any, any, any, any, any>;
+     const db = mod.getDb() as CoreDBCon<any,any>;
+     wrapper=db.getEntityWrapper<TestEntity>("TestEntity")
+      expect(wrapper).not.toBeUndefined()
+     if (wrapper){
+       expect((await wrapper.getObjList()).length).toBe(0)
+     }
+   });
+   test('create new', async () => {
+     expect(wrapper).not.toBeUndefined()
+     expect(wrapper).not.toBeNull()
+     if (wrapper){
+       for (let i = 0; i < max; i++) {
+         let entity:TestEntity = new TestEntity({
+           e_id:null,
+           name:"Bob",
+           age:i,
+           address:"home",
+           time:new Date(),
+           raw:null,
+           json:{some:"value",index:i}
+         });
+         entity= await wrapper.createObject(entity) || entity;
+         expect(entity.e_id).not.toBeNull()
+         idList.push(entity.e_id as number)
+         expect((await wrapper.getObjList()).length).toBe(i+1)
+       }
+     }else {
+       expect(false).toBeTruthy()
+     }
+
+   });
+
+   test('delete', async () => {
+     expect(wrapper).not.toBeUndefined()
+     if (wrapper){
+       for (const el of idList) {
+         expect((await wrapper.delete(el))).toBeTruthy();
+       }
        expect((await wrapper.getObjList()).length).toBe(0)
      }
    });
