@@ -1,6 +1,6 @@
 {
   "name": "@grandlinex/bundle-sqlight",
-  "version": "0.15.0-pre1",
+  "version": "0.15.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,7 +27,7 @@
   },
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@grandlinex/core": "file:grandlinex-core-0.15.0-pre3.tgz",
+    "@grandlinex/core": "0.15.0",
     "better-sqlite3": "^7.4.5"
   },
   "devDependencies": {
