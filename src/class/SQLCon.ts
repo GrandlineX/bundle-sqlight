@@ -133,18 +133,23 @@ export default abstract class SQLCon
 
   async getEntityList<E extends CoreEntity>(
     config: EntityConfig<E>,
-    search: {
+    limit?: number,
+    search?: {
       [P in keyof E]?: E[P];
     }
   ): Promise<E[]> {
+    if (limit === 0) {
+      return [];
+    }
     let searchQ = '';
+    const range = limit ? `LIMIT ${limit}` : '';
     const param: any[] = [];
     if (search) {
       searchQ = buildSearchQ(search, param, searchQ);
     }
     const query = this.db?.prepare(
       `SELECT *
-             FROM ${this.schemaName}.${config.className} ${searchQ};`
+             FROM ${this.schemaName}.${config.className} ${searchQ} ${range};`
     );
 
     const res = query?.all(param);

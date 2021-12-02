@@ -270,7 +270,24 @@ describe('TestDatabase', () => {
      }
 
    });
-
+   test('listing search id limit 0', async () => {
+     expect(wrapper).not.toBeUndefined()
+     if (wrapper){
+       expect((await wrapper.getObjList(undefined,0))).toHaveLength(0);
+     }
+   });
+   test('listing search id limit 1', async () => {
+     expect(wrapper).not.toBeUndefined()
+     if (wrapper){
+       expect((await wrapper.getObjList(undefined,1))).toHaveLength(1);
+     }
+   });
+   test('listing search id limit 2', async () => {
+     expect(wrapper).not.toBeUndefined()
+     if (wrapper){
+       expect((await wrapper.getObjList(undefined,2))).toHaveLength(2);
+     }
+   });
    test('delete', async () => {
      expect(wrapper).not.toBeUndefined()
      if (wrapper){
