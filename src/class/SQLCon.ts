@@ -49,12 +49,12 @@ export default abstract class SQLCon
     entity: E
   ): Promise<E | null> {
     const clone: E = entity;
-    const [keys, values, params] = objToTable(entity);
+    const [keys, values, params] = objToTable(entity, config);
     const query: RawQuery = {
       exec: `INSERT INTO ${this.schemaName}.${config.className}(${keys.join(
         ', '
       )})
-                       VALUES (${values.join(', ')})`,
+                   VALUES (${values.join(', ')})`,
       param: params,
     };
     const res = await this.execScripts([query]);
@@ -70,12 +70,12 @@ export default abstract class SQLCon
     entity: E
   ): Promise<E | null> {
     if (entity.e_id) {
-      const [, values, params] = objToTable(entity, true);
+      const [, values, params] = objToTable(entity, config, true);
       const result = await this.execScripts([
         {
-          exec: `UPDATE ${this.schemaName}.${
-            config.className
-          } SET ${values.join(', ')} WHERE e_id=${entity.e_id};`,
+          exec: `UPDATE ${this.schemaName}.${config.className}
+                           SET ${values.join(', ')}
+                           WHERE e_id = ${entity.e_id};`,
           param: params,
         },
       ]);
@@ -112,7 +112,8 @@ export default abstract class SQLCon
     searchQ = buildSearchQ<E>(search, param, searchQ);
 
     const query = this.db?.prepare(
-      `SELECT * FROM ${this.schemaName}.${config.className}${searchQ};`
+      `SELECT *
+             FROM ${this.schemaName}.${config.className} ${searchQ};`
     );
 
     const res = query?.get(param);
@@ -166,9 +167,9 @@ export default abstract class SQLCon
     await this.execScripts([
       {
         exec: `CREATE TABLE ${this.schemaName}.${className}
-                       (
-                           ${this.transformEntityKeys<E>(entity)}
-                       );`,
+                (
+                    ${this.transformEntityKeys<E>(entity)}
+                );`,
         param: [],
       },
     ]);
