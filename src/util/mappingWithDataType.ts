@@ -15,11 +15,12 @@ export default function mappingWithDataType<E extends CoreEntity>(
     const canBeNull = `${meta.canBeNull ? '' : ' NOT NULL'}`;
     const unique = `${meta.unique ? ' UNIQUE' : ''}`;
     let foreignKey: string;
-    if (meta.foreignKey) {
+    if (meta.foreignKey && !meta.foreignKey.schema) {
       foreignKey = ` REFERENCES ${meta.foreignKey.relation}(${meta.foreignKey.key})`;
     } else {
       foreignKey = '';
     }
+
     const dbType = resolveDBType(meta.dataType);
     out.push(`${key} ${dbType}${foreignKey}${canBeNull}${unique}`);
   }

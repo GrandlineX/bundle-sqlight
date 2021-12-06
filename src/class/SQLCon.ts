@@ -13,6 +13,7 @@ import {
   RawQuery,
 } from '@grandlinex/core';
 import Database = require('better-sqlite3');
+import { EOrderBy } from '@grandlinex/core/dist/classes/annotation';
 import {
   buildSearchQ,
   mappingWithDataType,
@@ -137,20 +138,32 @@ export default abstract class SQLCon
     limit?: number,
     search?: {
       [P in keyof E]?: E[P];
-    }
+    },
+    order?: EOrderBy<E>
   ): Promise<E[]> {
     if (limit === 0) {
       return [];
     }
     let searchQ = '';
+    const orderBy: string[] = [];
+    let orderByQ = '';
     const range = limit ? `LIMIT ${limit}` : '';
     const param: any[] = [];
     if (search) {
       searchQ = buildSearchQ(search, param, searchQ);
     }
+    if (order && order.length > 0) {
+      order.forEach((val) => {
+        orderBy.push(`${val.key} ${val.order}`);
+      });
+      orderByQ = `ORDER BY ${orderBy.join(',\n')}`;
+    }
     const query = this.db?.prepare(
       `SELECT *
-             FROM ${this.schemaName}.${config.className} ${searchQ} ${range};`
+             FROM ${this.schemaName}.${config.className} 
+             ${searchQ} 
+             ${orderByQ} 
+             ${range};`
     );
 
     const res = query?.all(param);

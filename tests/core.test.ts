@@ -287,6 +287,18 @@ describe('TestDatabase', () => {
        expect((await wrapper.getObjList(undefined,2))).toHaveLength(2);
      }
    });
+
+   test('listing search id limit ASC DESC', async () => {
+     expect(wrapper).not.toBeUndefined()
+     if (wrapper){
+       const a=await wrapper.getObjList(undefined,2,[{key:"e_id",order:"ASC"}])
+       const b= await wrapper.getObjList(undefined,2,[{key:"e_id",order:"DESC"}])
+       expect(a.length).toBe(2)
+       expect(b.length).toBe(2)
+       expect(a[0].e_id !== b[0].e_id).toBeTruthy()
+
+     }
+   });
    test('delete', async () => {
      expect(wrapper).not.toBeUndefined()
      if (wrapper){
