@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.15% </span>
+                <span class="strong">86.71% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>112/130</span>
+                <span class='fraction'>111/128</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70.83% </span>
+                <span class="strong">72.82% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>68/96</span>
+                <span class='fraction'>67/92</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.82% </span>
+                <span class="strong">86.4% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>109/127</span>
+                <span class='fraction'>108/125</span>
             </div>
         
             
@@ -406,6 +406,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -465,35 +467,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -732,6 +732,8 @@ import {
   CoreDBCon,
   CoreEntity,
   EntityConfig,
+  EProperties,
+  EUpDateProperties,
   getColumnMeta,
   ICoreKernelModule,
   IDataBase,
@@ -773,10 +775,10 @@ export default abstract class SQLCon
 &nbsp;
   async createEntity&lt;E extends CoreEntity&gt;(
     config: EntityConfig&lt;E&gt;,
-    entity: E
-  ): Promise&lt;E | null&gt; {
-    const clone: E = entity;
-    const [keys, values, params] = objToTable(entity, config);
+    entity: EProperties&lt;E&gt;
+  ): Promise&lt;E&gt; {
+    const clone: E = { ...entity, e_id: -1 } as E;
+    const [keys, values, params] = objToTable(clone, config);
     const query: RawQuery = {
       exec: `INSERT INTO ${this.schemaName}.${config.className}(${keys.join(
         ', '
@@ -786,7 +788,7 @@ export default abstract class SQLCon
     };
     const res = await this.execScripts([query]);
     <span class="missing-if-branch" title="if path not taken" >I</span>if (!res || !res[0]) {
-<span class="cstat-no" title="statement not covered" >      return null;</span>
+<span class="cstat-no" title="statement not covered" >      throw this.lError('Cant Create entity');</span>
     }
     clone.e_id = res[0].lastInsertRowid as number;
     return clone;
@@ -794,22 +796,20 @@ export default abstract class SQLCon
 &nbsp;
   async updateEntity&lt;E extends CoreEntity&gt;(
     config: EntityConfig&lt;E&gt;,
-    entity: E
-  ): Promise&lt;E | null&gt; {
-    if (<span class="missing-if-branch" title="if path not taken" >I</span>entity.e_id) {
-      const [, values, params] = objToTable(entity, config, true);
-      const result = await this.execScripts([
-        {
-          exec: `UPDATE ${this.schemaName}.${config.className}
+    e_id: number,
+    entity: EUpDateProperties&lt;E&gt;
+  ): Promise&lt;boolean&gt; {
+    const [, values, params] = objToTable(entity, config, true);
+    const result = await this.execScripts([
+      {
+        exec: `UPDATE ${this.schemaName}.${config.className}
                            SET ${values.join(', ')}
-                           WHERE e_id = ${entity.e_id};`,
-          param: params,
-        },
-      ]);
+                           WHERE e_id = ${e_id};`,
+        param: params,
+      },
+    ]);
 &nbsp;
-      return result[0] !== null ? entity : <span class="branch-1 cbranch-no" title="branch not covered" >null;</span>
-    }
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >    return null;</span></span>
+    return result[0] !== null;
   }
 &nbsp;
   async getEntityById&lt;E extends CoreEntity&gt;(
@@ -1063,7 +1063,7 @@ export default abstract class SQLCon
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener">istanbul</a>
-                at Sat Dec 04 2021 22:13:25 GMT+0000 (Coordinated Universal Time)
+                at Mon Dec 06 2021 00:37:19 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
