@@ -1,6 +1,6 @@
 {
   "name": "@grandlinex/bundle-sqlight",
-  "version": "0.15.1",
+  "version": "0.15.2",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,7 +27,7 @@
   },
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@grandlinex/core": "0.15.0",
+    "@grandlinex/core": "0.15.1",
     "better-sqlite3": "^7.4.5"
   },
   "devDependencies": {
@@ -50,8 +50,8 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "jest": "^27.4.3",
     "jest-junit": "^13.0.0",
-    "prettier": "^2.5.0",
-    "ts-jest": "^27.0.7",
+    "prettier": "^2.5.1",
+    "ts-jest": "^27.1.0",
     "ts-loader": "^9.2.6",
     "ts-node": "^10.4.0",
     "typedoc": "^0.22.10",

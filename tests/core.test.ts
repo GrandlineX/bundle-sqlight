@@ -79,7 +79,6 @@ describe('TestDatabase', () => {
    let wrapper2:undefined|CoreEntityWrapper<TestEntityLinked>=undefined;
 
    let entity:TestEntity = new TestEntity({
-     e_id:null,
      name:"Bob",
      age:30,
      address:"home",
@@ -88,7 +87,6 @@ describe('TestDatabase', () => {
      json:{some:"value"}
    });
    let entity2:TestEntity = new TestEntity({
-     e_id:null,
      name:"Alice",
      age:29,
      address:null,
@@ -97,7 +95,6 @@ describe('TestDatabase', () => {
      json:[{some:"value"},{some:"array"}]
    });
    let entity3:TestEntityLinked = new TestEntityLinked({
-     e_id:null,
      name:"Alice",
      age:29,
      address:null,
@@ -209,8 +206,11 @@ describe('TestDatabase', () => {
      expect(entity.e_id).not.toBeNull()
      if (wrapper){
        expect(entity.name).toBe("Bob")
-       entity.name="Bobi";
-       const update=await wrapper.updateObject(entity);
+
+       await wrapper.updateObject(entity.e_id,{
+         name:"Bobi"
+       });
+       const update = await wrapper.getObjById(entity.e_id);
        expect(update).not.toBeNull()
        expect(update?.name).toBe("Bobi")
        expect((await wrapper.getObjList()).length).toBe(2)
@@ -252,7 +252,6 @@ describe('TestDatabase', () => {
      if (wrapper){
        for (let i = 0; i < max; i++) {
          let entity:TestEntity = new TestEntity({
-           e_id:null,
            name:"Bob",
            age:i,
            address:"home",

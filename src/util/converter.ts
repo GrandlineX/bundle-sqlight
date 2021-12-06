@@ -1,4 +1,9 @@
-import { ColumnProps, CoreEntity, EntityConfig } from '@grandlinex/core';
+import {
+  ColumnProps,
+  CoreEntity,
+  EntityConfig,
+  EUpDateProperties,
+} from '@grandlinex/core';
 
 function convertSpecialFields<E>(
   meta: ColumnProps,
@@ -27,7 +32,7 @@ function convertSpecialFields<E>(
 }
 
 export function objToTable<E extends CoreEntity>(
-  entity: E,
+  entity: E | EUpDateProperties<E>,
   config: EntityConfig<E>,
   update?: boolean
 ): [(keyof E)[], string[], unknown[]] {

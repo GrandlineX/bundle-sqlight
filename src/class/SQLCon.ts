@@ -5,6 +5,8 @@ import {
   CoreDBCon,
   CoreEntity,
   EntityConfig,
+  EProperties,
+  EUpDateProperties,
   getColumnMeta,
   ICoreKernelModule,
   IDataBase,
@@ -46,10 +48,10 @@ export default abstract class SQLCon
 
   async createEntity<E extends CoreEntity>(
     config: EntityConfig<E>,
-    entity: E
-  ): Promise<E | null> {
-    const clone: E = entity;
-    const [keys, values, params] = objToTable(entity, config);
+    entity: EProperties<E>
+  ): Promise<E> {
+    const clone: E = { ...entity, e_id: -1 } as E;
+    const [keys, values, params] = objToTable(clone, config);
     const query: RawQuery = {
       exec: `INSERT INTO ${this.schemaName}.${config.className}(${keys.join(
         ', '
@@ -59,7 +61,7 @@ export default abstract class SQLCon
     };
     const res = await this.execScripts([query]);
     if (!res || !res[0]) {
-      return null;
+      throw this.lError('Cant Create entity');
     }
     clone.e_id = res[0].lastInsertRowid as number;
     return clone;
@@ -67,22 +69,20 @@ export default abstract class SQLCon
 
   async updateEntity<E extends CoreEntity>(
     config: EntityConfig<E>,
-    entity: E
-  ): Promise<E | null> {
-    if (entity.e_id) {
-      const [, values, params] = objToTable(entity, config, true);
-      const result = await this.execScripts([
-        {
-          exec: `UPDATE ${this.schemaName}.${config.className}
+    e_id: number,
+    entity: EUpDateProperties<E>
+  ): Promise<boolean> {
+    const [, values, params] = objToTable(entity, config, true);
+    const result = await this.execScripts([
+      {
+        exec: `UPDATE ${this.schemaName}.${config.className}
                            SET ${values.join(', ')}
-                           WHERE e_id = ${entity.e_id};`,
-          param: params,
-        },
-      ]);
+                           WHERE e_id = ${e_id};`,
+        param: params,
+      },
+    ]);
 
-      return result[0] !== null ? entity : null;
-    }
-    return null;
+    return result[0] !== null;
   }
 
   async getEntityById<E extends CoreEntity>(
