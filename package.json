@@ -9,6 +9,7 @@
     "lint": "eslint src",
     "test": "jest --runInBand ",
     "run": "ts-node tests/run.ts",
+    "pack": "eslint && npm run buildprep && npm pack",
     "test-converage": "jest --runInBand --ci --collectCoverage   --coverageDirectory=\"./coverage\"  --reporters=default --reporters=jest-junit",
     "doc-converage": "jest --runInBand --ci --collectCoverage   --coverageDirectory=\"./docs/coverage\"  --reporters=default --reporters=jest-junit",
     "makeDocs": "typedoc"
@@ -27,14 +28,14 @@
   },
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@grandlinex/core": "0.16.1",
+    "@grandlinex/core": "0.16.2",
     "better-sqlite3": "^7.4.5"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.4.1",
     "@types/jest": "^27.0.3",
     "@types/jsonwebtoken": "^8.5.6",
-    "@types/node": "^16.11.11",
+    "@types/node": "^16.11.12",
     "@typescript-eslint/eslint-plugin": "^5.5.0",
     "@typescript-eslint/parser": "^5.5.0",
     "cross-env": "^7.0.3",
