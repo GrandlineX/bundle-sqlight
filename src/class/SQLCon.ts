@@ -110,7 +110,7 @@ export default abstract class SQLCon
     let searchQ = '';
     const param: any[] = [];
 
-    searchQ = buildSearchQ<E>(search, param, searchQ);
+    searchQ = buildSearchQ<E>(config, search, param, searchQ);
 
     const query = this.db?.prepare(
       `SELECT *
@@ -150,7 +150,7 @@ export default abstract class SQLCon
     const range = limit ? `LIMIT ${limit}` : '';
     const param: any[] = [];
     if (search) {
-      searchQ = buildSearchQ(search, param, searchQ);
+      searchQ = buildSearchQ<E>(config, search, param, searchQ);
     }
     if (order && order.length > 0) {
       order.forEach((val) => {

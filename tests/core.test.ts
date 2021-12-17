@@ -263,6 +263,9 @@ describe('TestDatabase', () => {
          expect(entity.e_id).not.toBeNull()
          idList.push(entity.e_id as number)
          expect((await wrapper.getObjList()).length).toBe(i+1)
+         expect((await wrapper.getObjList({
+           time:entity.time
+         })).length).toBeGreaterThanOrEqual(1)
        }
      }else {
        expect(false).toBeTruthy()

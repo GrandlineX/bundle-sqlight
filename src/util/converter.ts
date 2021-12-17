@@ -5,7 +5,7 @@ import {
   EUpDateProperties,
 } from '@grandlinex/core';
 
-function convertSpecialFields<E>(
+export function convertSpecialFields<E>(
   meta: ColumnProps,
   clone: any,
   key: keyof E,
