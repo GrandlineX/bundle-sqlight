@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
-<coverage lines-valid="220" lines-covered="198" line-rate="0.9" branches-valid="141" branches-covered="109" branch-rate="0.773" timestamp="1638876346567" complexity="0" version="0.1">
+<coverage lines-valid="225" lines-covered="202" line-rate="0.8976999999999999" branches-valid="142" branches-covered="109" branch-rate="0.7676000000000001" timestamp="1639748415013" complexity="0" version="0.1">
   <sources>
     <source>/home/runner/work/bundle-sqlight/bundle-sqlight</source>
   </sources>
@@ -58,9 +58,9 @@
                 <line number="127" hits="103"/>
               </lines>
             </method>
-            <method name="(anonymous_44)" hits="121" signature="()V">
+            <method name="(anonymous_44)" hits="221" signature="()V">
               <lines>
-                <line number="136" hits="121"/>
+                <line number="136" hits="221"/>
               </lines>
             </method>
             <method name="(anonymous_47)" hits="2" signature="()V">
@@ -181,23 +181,23 @@
             <line number="128" hits="103" branch="true" condition-coverage="75% (3/4)"/>
             <line number="133" hits="103" branch="true" condition-coverage="75% (3/4)"/>
             <line number="136" hits="1" branch="false"/>
-            <line number="144" hits="121" branch="true" condition-coverage="100% (1/1)"/>
+            <line number="144" hits="221" branch="true" condition-coverage="100% (1/1)"/>
             <line number="145" hits="1" branch="false"/>
-            <line number="147" hits="120" branch="false"/>
-            <line number="148" hits="120" branch="false"/>
-            <line number="149" hits="120" branch="false"/>
-            <line number="150" hits="120" branch="true" condition-coverage="100% (2/2)"/>
-            <line number="151" hits="120" branch="false"/>
-            <line number="152" hits="120" branch="true" condition-coverage="100% (1/1)"/>
-            <line number="153" hits="5" branch="false"/>
-            <line number="155" hits="120" branch="true" condition-coverage="100% (3/3)"/>
+            <line number="147" hits="220" branch="false"/>
+            <line number="148" hits="220" branch="false"/>
+            <line number="149" hits="220" branch="false"/>
+            <line number="150" hits="220" branch="true" condition-coverage="100% (2/2)"/>
+            <line number="151" hits="220" branch="false"/>
+            <line number="152" hits="220" branch="true" condition-coverage="100% (1/1)"/>
+            <line number="153" hits="105" branch="false"/>
+            <line number="155" hits="220" branch="true" condition-coverage="100% (3/3)"/>
             <line number="156" hits="2" branch="false"/>
             <line number="157" hits="2" branch="false"/>
             <line number="159" hits="2" branch="false"/>
-            <line number="161" hits="120" branch="true" condition-coverage="75% (3/4)"/>
-            <line number="169" hits="120" branch="true" condition-coverage="75% (3/4)"/>
-            <line number="170" hits="120" branch="true" condition-coverage="100% (1/1)"/>
-            <line number="171" hits="120" branch="false"/>
+            <line number="161" hits="220" branch="true" condition-coverage="75% (3/4)"/>
+            <line number="169" hits="220" branch="true" condition-coverage="75% (3/4)"/>
+            <line number="170" hits="220" branch="true" condition-coverage="100% (1/1)"/>
+            <line number="171" hits="220" branch="false"/>
             <line number="173" hits="0" branch="false"/>
             <line number="176" hits="1" branch="false"/>
             <line number="180" hits="6" branch="true" condition-coverage="100% (1/1)"/>
@@ -270,36 +270,40 @@
         </class>
       </classes>
     </package>
-    <package name="src.util" line-rate="0.9411" branch-rate="0.8478">
+    <package name="src.util" line-rate="0.9333" branch-rate="0.8297">
       <classes>
-        <class name="buildSearchQ.ts" filename="src/util/buildSearchQ.ts" line-rate="1" branch-rate="1">
+        <class name="buildSearchQ.ts" filename="src/util/buildSearchQ.ts" line-rate="0.9375" branch-rate="0.75">
           <methods>
-            <method name="buildSearchQ" hits="6" signature="()V">
+            <method name="buildSearchQ" hits="106" signature="()V">
               <lines>
-                <line number="1" hits="6"/>
+                <line number="4" hits="106"/>
               </lines>
             </method>
           </methods>
           <lines>
-            <line number="1" hits="1" branch="false"/>
-            <line number="6" hits="6" branch="false"/>
-            <line number="7" hits="6" branch="false"/>
-            <line number="8" hits="6" branch="true" condition-coverage="100% (1/1)"/>
-            <line number="9" hits="6" branch="false"/>
-            <line number="10" hits="12" branch="false"/>
-            <line number="11" hits="6" branch="true" condition-coverage="100% (1/1)"/>
-            <line number="12" hits="6" branch="false"/>
-            <line number="13" hits="6" branch="false"/>
-            <line number="16" hits="6" branch="true" condition-coverage="100% (1/1)"/>
-            <line number="17" hits="6" branch="false"/>
-            <line number="20" hits="6" branch="false"/>
+            <line number="2" hits="1" branch="false"/>
+            <line number="4" hits="1" branch="false"/>
+            <line number="10" hits="106" branch="false"/>
+            <line number="11" hits="106" branch="false"/>
+            <line number="12" hits="106" branch="true" condition-coverage="100% (1/1)"/>
+            <line number="13" hits="106" branch="false"/>
+            <line number="14" hits="212" branch="false"/>
+            <line number="15" hits="106" branch="true" condition-coverage="100% (1/1)"/>
+            <line number="16" hits="106" branch="false"/>
+            <line number="17" hits="106" branch="true" condition-coverage="0% (0/1)"/>
+            <line number="18" hits="0" branch="false"/>
+            <line number="20" hits="106" branch="false"/>
+            <line number="21" hits="106" branch="false"/>
+            <line number="24" hits="106" branch="true" condition-coverage="100% (1/1)"/>
+            <line number="25" hits="106" branch="false"/>
+            <line number="28" hits="106" branch="false"/>
           </lines>
         </class>
-        <class name="converter.ts" filename="src/util/converter.ts" line-rate="0.9545" branch-rate="0.8636">
+        <class name="converter.ts" filename="src/util/converter.ts" line-rate="0.9555" branch-rate="0.8636">
           <methods>
-            <method name="convertSpecialFields" hits="622" signature="()V">
+            <method name="convertSpecialFields" hits="728" signature="()V">
               <lines>
-                <line number="8" hits="622"/>
+                <line number="8" hits="728"/>
               </lines>
             </method>
             <method name="objToTable" hits="104" signature="()V">
@@ -312,39 +316,40 @@
                 <line number="45" hits="725"/>
               </lines>
             </method>
-            <method name="rowToObj" hits="5073" signature="()V">
+            <method name="rowToObj" hits="10123" signature="()V">
               <lines>
-                <line number="69" hits="5073"/>
+                <line number="69" hits="10123"/>
               </lines>
             </method>
-            <method name="(anonymous_4)" hits="35520" signature="()V">
+            <method name="(anonymous_4)" hits="70870" signature="()V">
               <lines>
-                <line number="74" hits="35520"/>
+                <line number="74" hits="70870"/>
               </lines>
             </method>
-            <method name="tableToObj" hits="120" signature="()V">
+            <method name="tableToObj" hits="220" signature="()V">
               <lines>
-                <line number="89" hits="120"/>
+                <line number="89" hits="220"/>
               </lines>
             </method>
-            <method name="(anonymous_6)" hits="5070" signature="()V">
+            <method name="(anonymous_6)" hits="10120" signature="()V">
               <lines>
-                <line number="93" hits="5070"/>
+                <line number="93" hits="10120"/>
               </lines>
             </method>
           </methods>
           <lines>
-            <line number="14" hits="622" branch="true" condition-coverage="100% (4/4)"/>
-            <line number="16" hits="103" branch="true" condition-coverage="100% (2/2)"/>
-            <line number="17" hits="101" branch="false"/>
+            <line number="8" hits="1" branch="false"/>
+            <line number="14" hits="728" branch="true" condition-coverage="100% (4/4)"/>
+            <line number="16" hits="203" branch="true" condition-coverage="100% (2/2)"/>
+            <line number="17" hits="201" branch="false"/>
             <line number="19" hits="2" branch="false"/>
-            <line number="21" hits="103" branch="false"/>
+            <line number="21" hits="203" branch="false"/>
             <line number="23" hits="103" branch="false"/>
             <line number="24" hits="103" branch="false"/>
             <line number="26" hits="1" branch="true" condition-coverage="50% (1/2)"/>
             <line number="27" hits="1" branch="false"/>
-            <line number="29" hits="415" branch="false"/>
-            <line number="30" hits="415" branch="false"/>
+            <line number="29" hits="421" branch="false"/>
+            <line number="30" hits="421" branch="false"/>
             <line number="34" hits="1" branch="false"/>
             <line number="39" hits="104" branch="false"/>
             <line number="40" hits="104" branch="false"/>
@@ -366,18 +371,18 @@
             <line number="64" hits="104" branch="false"/>
             <line number="66" hits="0" branch="false"/>
             <line number="69" hits="1" branch="false"/>
-            <line number="73" hits="5073" branch="false"/>
-            <line number="74" hits="5073" branch="false"/>
-            <line number="75" hits="35520" branch="true" condition-coverage="100% (3/3)"/>
-            <line number="77" hits="5073" branch="true" condition-coverage="50% (1/2)"/>
-            <line number="78" hits="5073" branch="false"/>
-            <line number="80" hits="5073" branch="true" condition-coverage="100% (2/2)"/>
-            <line number="81" hits="5073" branch="false"/>
-            <line number="83" hits="25374" branch="false"/>
-            <line number="86" hits="5073" branch="false"/>
+            <line number="73" hits="10123" branch="false"/>
+            <line number="74" hits="10123" branch="false"/>
+            <line number="75" hits="70870" branch="true" condition-coverage="100% (3/3)"/>
+            <line number="77" hits="10123" branch="true" condition-coverage="50% (1/2)"/>
+            <line number="78" hits="10123" branch="false"/>
+            <line number="80" hits="10123" branch="true" condition-coverage="100% (2/2)"/>
+            <line number="81" hits="10123" branch="false"/>
+            <line number="83" hits="50624" branch="false"/>
+            <line number="86" hits="10123" branch="false"/>
             <line number="89" hits="1" branch="false"/>
-            <line number="93" hits="120" branch="false"/>
-            <line number="94" hits="5070" branch="false"/>
+            <line number="93" hits="220" branch="false"/>
+            <line number="94" hits="10120" branch="false"/>
           </lines>
         </class>
         <class name="index.ts" filename="src/util/index.ts" line-rate="1" branch-rate="1">
