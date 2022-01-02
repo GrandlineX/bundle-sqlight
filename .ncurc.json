@@ -5,6 +5,8 @@
     "@typescript-eslint/parser",
     "@typescript-eslint/eslint-plugin",
     "eslint-config-airbnb-typescript",
-    "eslint-config-prettier"
+    "eslint-plugin-react",
+    "eslint-config-prettier",
+    "@types/node"
   ]
 }
