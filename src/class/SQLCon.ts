@@ -24,7 +24,7 @@ import {
 
 type DbType = Database.Database;
 
-export default abstract class SQLCon
+export default class SQLCon
   extends CoreDBCon<DbType, RunResult>
   implements IDataBase<DbType, RunResult>
 {
@@ -195,10 +195,10 @@ export default abstract class SQLCon
 
     keys.forEach((key) => {
       const meta = getColumnMeta(entity, key);
-      if (meta?.dataType) {
-        mappingWithDataType(meta, out, key);
-      } else if (key === 'e_id') {
+      if (key === 'e_id') {
         out.push(`e_id INTEGER PRIMARY KEY`);
+      } else if (meta?.dataType) {
+        mappingWithDataType(meta, out, key);
       } else {
         const type = typeof entity[key];
         switch (type) {
@@ -237,7 +237,9 @@ export default abstract class SQLCon
     }
   }
 
-  abstract initNewDB(): Promise<void>;
+  async initNewDB(): Promise<void> {
+    this.debug('no init ');
+  }
 
   async connect(): Promise<boolean> {
     try {
