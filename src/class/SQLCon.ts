@@ -32,7 +32,7 @@ export default class SQLCon
 
   private readonly path: string;
 
-  protected constructor(
+  constructor(
     module: ICoreKernelModule<any, any, any, any, any>,
     dbversion: string
   ) {
