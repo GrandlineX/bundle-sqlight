@@ -10,6 +10,7 @@ import {
   getColumnMeta,
   ICoreKernelModule,
   IDataBase,
+  QueryInterface,
   RawQuery,
 } from '@grandlinex/core';
 import Database = require('better-sqlite3');
@@ -134,20 +135,17 @@ export default class SQLCon
   }
 
   async getEntityList<E extends CoreEntity>(
-    config: EntityConfig<E>,
-    limit?: number,
-    search?: {
-      [P in keyof E]?: E[P];
-    },
-    order?: EOrderBy<E>
+    q: QueryInterface<E>
   ): Promise<E[]> {
+    const { limit, search, config, order, offset } = q;
     if (limit === 0) {
       return [];
     }
     let searchQ = '';
     const orderBy: string[] = [];
     let orderByQ = '';
-    const range = limit ? `LIMIT ${limit}` : '';
+    const off = offset !== undefined ? ` OFFSET ${offset}` : '';
+    const range = limit ? `LIMIT ${limit}${off}` : '';
     const param: any[] = [];
     if (search) {
       searchQ = buildSearchQ<E>(config, search, param, searchQ);
