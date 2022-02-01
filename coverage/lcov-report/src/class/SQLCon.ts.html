@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.35% </span>
+                <span class="strong">82.6% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>112/136</span>
+                <span class='fraction'>114/138</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70.52% </span>
+                <span class="strong">71.13% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>67/95</span>
+                <span class='fraction'>69/97</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.95% </span>
+                <span class="strong">82.22% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>109/133</span>
+                <span class='fraction'>111/135</span>
             </div>
         
             
@@ -407,11 +407,10 @@
 <a name='L342'></a><a href='#L342'>342</a>
 <a name='L343'></a><a href='#L343'>343</a>
 <a name='L344'></a><a href='#L344'>344</a>
-<a name='L345'></a><a href='#L345'>345</a>
-<a name='L346'></a><a href='#L346'>346</a>
-<a name='L347'></a><a href='#L347'>347</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L345'></a><a href='#L345'>345</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -547,29 +546,26 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">221x</span>
+<span class="cline-any cline-yes">223x</span>
+<span class="cline-any cline-yes">223x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">220x</span>
-<span class="cline-any cline-yes">220x</span>
-<span class="cline-any cline-yes">220x</span>
-<span class="cline-any cline-yes">220x</span>
-<span class="cline-any cline-yes">220x</span>
-<span class="cline-any cline-yes">220x</span>
+<span class="cline-any cline-yes">222x</span>
+<span class="cline-any cline-yes">222x</span>
+<span class="cline-any cline-yes">222x</span>
+<span class="cline-any cline-yes">222x</span>
+<span class="cline-any cline-yes">222x</span>
+<span class="cline-any cline-yes">222x</span>
+<span class="cline-any cline-yes">222x</span>
 <span class="cline-any cline-yes">105x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">220x</span>
+<span class="cline-any cline-yes">222x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">220x</span>
+<span class="cline-any cline-yes">222x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -577,9 +573,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">220x</span>
-<span class="cline-any cline-yes">220x</span>
-<span class="cline-any cline-yes">220x</span>
+<span class="cline-any cline-yes">222x</span>
+<span class="cline-any cline-yes">222x</span>
+<span class="cline-any cline-yes">222x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -767,6 +763,7 @@ import {
   getColumnMeta,
   ICoreKernelModule,
   IDataBase,
+  QueryInterface,
   RawQuery,
 } from '@grandlinex/core';
 import Database = require('better-sqlite3');
@@ -891,20 +888,17 @@ export default class SQLCon
   }
 &nbsp;
   async getEntityList&lt;E extends CoreEntity&gt;(
-    config: EntityConfig&lt;E&gt;,
-    limit?: number,
-    search?: {
-      [P in keyof E]?: E[P];
-    },
-    order?: EOrderBy&lt;E&gt;
+    q: QueryInterface&lt;E&gt;
   ): Promise&lt;E[]&gt; {
+    const { limit, search, config, order, offset } = q;
     if (limit === 0) {
       return [];
     }
     let searchQ = '';
     const orderBy: string[] = [];
     let orderByQ = '';
-    const range = limit ? `LIMIT ${limit}` : '';
+    const off = offset !== undefined ? ` OFFSET ${offset}` : '';
+    const range = limit ? `LIMIT ${limit}${off}` : '';
     const param: any[] = [];
     if (search) {
       searchQ = buildSearchQ&lt;E&gt;(config, search, param, searchQ);
@@ -1108,7 +1102,7 @@ export default class SQLCon
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Tue Jan 25 2022 17:59:01 GMT+0000 (Coordinated Universal Time)
+                at Tue Feb 01 2022 22:48:00 GMT+0000 (Coordinated Universal Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>
