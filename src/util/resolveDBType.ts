@@ -10,6 +10,7 @@ export default function resolveDBType(dType: DataType) {
     case 'blob':
       return 'BLOB';
     case 'string':
+    case 'uuid':
     case 'text':
       return 'TEXT';
     case 'boolean':

@@ -47,7 +47,7 @@ export function objToTable<E extends CoreEntity>(
     if (!meta) {
       throw new Error('No col meta');
     }
-    if (meta.primaryKey) {
+    if (meta.primaryKey && update) {
       return;
     }
     convertSpecialFields<E>(meta, clone, key, params);

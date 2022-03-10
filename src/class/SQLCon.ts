@@ -14,7 +14,6 @@ import {
   RawQuery,
 } from '@grandlinex/core';
 import Database = require('better-sqlite3');
-import { EOrderBy } from '@grandlinex/core/dist/classes/annotation';
 import {
   buildSearchQ,
   mappingWithDataType,
@@ -52,8 +51,7 @@ export default class SQLCon
     config: EntityConfig<E>,
     entity: EProperties<E>
   ): Promise<E> {
-    const clone: E = { ...entity, e_id: -1 } as E;
-    const [keys, values, params] = objToTable(clone, config);
+    const [keys, values, params] = objToTable(entity, config);
     const query: RawQuery = {
       exec: `INSERT INTO ${this.schemaName}.${config.className}(${keys.join(
         ', '
@@ -65,13 +63,12 @@ export default class SQLCon
     if (!res || !res[0]) {
       throw this.lError('Cant Create entity');
     }
-    clone.e_id = res[0].lastInsertRowid as number;
-    return clone;
+    return entity as E;
   }
 
   async updateEntity<E extends CoreEntity>(
     config: EntityConfig<E>,
-    e_id: number,
+    e_id: string,
     entity: EUpDateProperties<E>
   ): Promise<boolean> {
     const [, values, params] = objToTable(entity, config, true);
@@ -79,8 +76,8 @@ export default class SQLCon
       {
         exec: `UPDATE ${this.schemaName}.${config.className}
                            SET ${values.join(', ')}
-                           WHERE e_id = ${e_id};`,
-        param: params,
+                           WHERE e_id = ?;`,
+        param: [...params, e_id],
       },
     ]);
 
@@ -89,15 +86,15 @@ export default class SQLCon
 
   async getEntityById<E extends CoreEntity>(
     config: EntityConfig<E>,
-    id: number
+    id: string
   ): Promise<E | null> {
     const query = this.db?.prepare(
       `SELECT *
              FROM ${this.schemaName}.${config.className}
-             WHERE e_id = ${id};`
+             WHERE e_id = ?;`
     );
 
-    const res = query?.get();
+    const res = query?.get([id]);
     if (res) {
       return rowToObj<E>(config, res);
     }
@@ -125,13 +122,13 @@ export default class SQLCon
     return null;
   }
 
-  async deleteEntityById(className: string, id: number): Promise<boolean> {
+  async deleteEntityById(className: string, id: string): Promise<boolean> {
     const query = this.db?.prepare(
       `DELETE
              FROM ${this.schemaName}.${className}
-             WHERE e_id = ${id};`
+             WHERE e_id = ?;`
     );
-    return query?.run().changes === 1;
+    return query?.run([id]).changes === 1;
   }
 
   async getEntityList<E extends CoreEntity>(
@@ -194,7 +191,7 @@ export default class SQLCon
     keys.forEach((key) => {
       const meta = getColumnMeta(entity, key);
       if (key === 'e_id') {
-        out.push(`e_id INTEGER PRIMARY KEY`);
+        out.push(`e_id TEXT PRIMARY KEY`);
       } else if (meta?.dataType) {
         mappingWithDataType(meta, out, key);
       } else {
