@@ -1,7 +1,7 @@
 import * as Path from 'path';
 import {
+  CoreModule,
   createFolderIfNotExist,
-  InMemDB,
   setupDevKernel,
   TestKernel,
 } from '@grandlinex/core';
@@ -25,6 +25,8 @@ setupDevKernel(kernel, (mod) => {
     // db: new InMemDB(mod),
   };
 });
+
+kernel.setBaseModule(new CoreModule(kernel,(mod)=> new SQLCon(mod,"0")))
 
 require('@grandlinex/core/dist/dev/lib/start');
 require('@grandlinex/core/dist/dev/lib/core');
