@@ -2,7 +2,7 @@ import * as Path from 'path';
 import {
   CoreModule,
   createFolderIfNotExist,
-  setupDevKernel,
+  setupDevKernel, TestContext,
   TestKernel,
 } from '@grandlinex/core';
 import { SQLCon } from '../src';
@@ -15,8 +15,11 @@ const testPath = Path.join(__dirname, '..', 'data', 'config');
 createFolderIfNotExist(msiPath);
 createFolderIfNotExist(testPath);
 
-const kernel = TestKernel.getEntity(
-  new TestKernel(appName, appCode, testPath, __dirname)
+const [kernel] = TestContext.getEntity(
+    {
+      kernel:new TestKernel(appName, appCode, testPath, __dirname),
+      cleanUpPath:testPath
+    }
 );
 
 setupDevKernel(kernel, (mod) => {
@@ -29,6 +32,7 @@ setupDevKernel(kernel, (mod) => {
 kernel.setBaseModule(new CoreModule(kernel,(mod)=> new SQLCon(mod,"0")))
 
 require('@grandlinex/core/dist/dev/lib/start');
+require('@grandlinex/core/dist/dev/lib/store');
 require('@grandlinex/core/dist/dev/lib/core');
 require('@grandlinex/core/dist/dev/lib/dbcon');
 require('@grandlinex/core/dist/dev/lib/end');
