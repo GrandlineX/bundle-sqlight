@@ -22,7 +22,7 @@ import {
   tableToObj,
 } from '../util';
 
-type DbType = Database.Database;
+export type DbType = Database.Database;
 
 export default class SQLCon
   extends CoreDBCon<DbType, RunResult>

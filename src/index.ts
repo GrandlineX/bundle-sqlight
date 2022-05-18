@@ -1,5 +1,5 @@
-import SQLCon from './class/SQLCon';
+import SQLCon, { DbType } from './class/SQLCon';
 
 export * from './util';
-export { SQLCon };
+export { SQLCon, DbType };
 export default SQLCon;
