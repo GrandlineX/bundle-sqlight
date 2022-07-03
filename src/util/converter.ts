@@ -52,7 +52,7 @@ export function objToTable<E extends CoreEntity>(
     }
     convertSpecialFields<E>(meta, clone, key, params);
     if (update) {
-      values.push(`${key}=?`);
+      values.push(`${String(key)}=?`);
     } else {
       values.push(`?`);
     }
