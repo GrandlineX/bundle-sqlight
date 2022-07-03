@@ -7,8 +7,8 @@ import {
   EntityConfig,
   EProperties,
   EUpDateProperties,
-  getColumnMeta,
-  ICoreKernelModule,
+  getColumnMeta, ICoreCache, ICoreClient, ICoreKernel,
+  ICoreKernelModule, ICorePresenter,
   IDataBase,
   QueryInterface,
   RawQuery,
@@ -24,9 +24,14 @@ import {
 
 export type DbType = Database.Database;
 
-export default class SQLCon
-  extends CoreDBCon<DbType, RunResult>
-  implements IDataBase<DbType, RunResult>
+export default class SQLCon<
+    K extends ICoreKernel<any> = ICoreKernel<any>,
+    T extends IDataBase<any, any> | null = any,
+    P extends ICoreClient | null = any,
+    C extends ICoreCache | null = any,
+    E extends ICorePresenter<any> | null = any>
+  extends CoreDBCon<DbType, RunResult,K,T,P,C,E>
+  implements IDataBase<DbType, RunResult,K,T,P,C,E>
 {
   db: DbType | null;
 
@@ -149,7 +154,7 @@ export default class SQLCon
     }
     if (order && order.length > 0) {
       order.forEach((val) => {
-        orderBy.push(`${val.key} ${val.order}`);
+        orderBy.push(`${String(val.key)} ${val.order}`);
       });
       orderByQ = `ORDER BY ${orderBy.join(',\n')}`;
     }
@@ -199,10 +204,10 @@ export default class SQLCon
         switch (type) {
           case 'bigint':
           case 'number':
-            out.push(`${key} INTEGER NOT NULL`);
+            out.push(`${String(key)} INTEGER NOT NULL`);
             break;
           case 'string':
-            out.push(`${key} TEXT NOT NULL`);
+            out.push(`${String(key)} TEXT NOT NULL`);
             break;
           default:
             throw Error('TypeNotSupported');

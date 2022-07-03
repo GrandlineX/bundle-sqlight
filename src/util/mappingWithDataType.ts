@@ -10,7 +10,7 @@ export default function mappingWithDataType<E extends CoreEntity>(
     throw new Error('DataType not set');
   }
   if (meta.dataType === 'serial') {
-    out.push(`${key} INTEGER AUTOINCREMENT NOT NUL`);
+    out.push(`${String(key)} INTEGER AUTOINCREMENT NOT NUL`);
   } else {
     let canBeNull = `${meta.canBeNull ? '' : ' NOT NULL'}`;
     if (meta.primaryKey) {
@@ -25,6 +25,6 @@ export default function mappingWithDataType<E extends CoreEntity>(
     }
 
     const dbType = resolveDBType(meta.dataType);
-    out.push(`${key} ${dbType}${foreignKey}${canBeNull}${unique}`);
+    out.push(`${String(key)} ${dbType}${foreignKey}${canBeNull}${unique}`);
   }
 }
