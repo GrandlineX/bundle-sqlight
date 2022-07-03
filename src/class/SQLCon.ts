@@ -7,8 +7,12 @@ import {
   EntityConfig,
   EProperties,
   EUpDateProperties,
-  getColumnMeta, ICoreCache, ICoreClient, ICoreKernel,
-  ICoreKernelModule, ICorePresenter,
+  getColumnMeta,
+  ICoreCache,
+  ICoreClient,
+  ICoreKernel,
+  ICoreKernelModule,
+  ICorePresenter,
   IDataBase,
   QueryInterface,
   RawQuery,
@@ -29,9 +33,10 @@ export default class SQLCon<
     T extends IDataBase<any, any> | null = any,
     P extends ICoreClient | null = any,
     C extends ICoreCache | null = any,
-    E extends ICorePresenter<any> | null = any>
-  extends CoreDBCon<DbType, RunResult,K,T,P,C,E>
-  implements IDataBase<DbType, RunResult,K,T,P,C,E>
+    X extends ICorePresenter<any> | null = any
+  >
+  extends CoreDBCon<DbType, RunResult, K, T, P, C, X>
+  implements IDataBase<DbType, RunResult, K, T, P, C, X>
 {
   db: DbType | null;
 
@@ -108,7 +113,7 @@ export default class SQLCon<
 
   async findEntity<E extends CoreEntity>(
     config: EntityConfig<E>,
-    search: { [P in keyof E]?: E[P] | undefined }
+    search: { [D in keyof E]?: E[D] | undefined }
   ): Promise<E | null> {
     let searchQ = '';
     const param: any[] = [];
