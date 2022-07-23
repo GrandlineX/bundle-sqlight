@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
-<coverage lines-valid="229" lines-covered="192" line-rate="0.8384" branches-valid="148" branches-covered="103" branch-rate="0.6959000000000001" timestamp="1658542807545" complexity="0" version="0.1">
+<coverage lines-valid="229" lines-covered="192" line-rate="0.8384" branches-valid="148" branches-covered="103" branch-rate="0.6959000000000001" timestamp="1658549288687" complexity="0" version="0.1">
   <sources>
     <source>/home/runner/work/bundle-sqlight/bundle-sqlight</source>
   </sources>
@@ -323,14 +323,14 @@
                 <line number="45" hits="732"/>
               </lines>
             </method>
-            <method name="rowToObj" hits="10125" signature="()V">
+            <method name="rowToObj" hits="8154" signature="()V">
               <lines>
-                <line number="69" hits="10125"/>
+                <line number="69" hits="8154"/>
               </lines>
             </method>
-            <method name="(anonymous_4)" hits="70887" signature="()V">
+            <method name="(anonymous_4)" hits="57090" signature="()V">
               <lines>
-                <line number="74" hits="70887"/>
+                <line number="74" hits="57090"/>
               </lines>
             </method>
             <method name="tableToObj" hits="223" signature="()V">
@@ -338,9 +338,9 @@
                 <line number="89" hits="223"/>
               </lines>
             </method>
-            <method name="(anonymous_6)" hits="10122" signature="()V">
+            <method name="(anonymous_6)" hits="8151" signature="()V">
               <lines>
-                <line number="93" hits="10122"/>
+                <line number="93" hits="8151"/>
               </lines>
             </method>
           </methods>
@@ -378,18 +378,18 @@
             <line number="64" hits="105" branch="false"/>
             <line number="66" hits="0" branch="false"/>
             <line number="69" hits="1" branch="false"/>
-            <line number="73" hits="10125" branch="false"/>
-            <line number="74" hits="10125" branch="false"/>
-            <line number="75" hits="70887" branch="true" condition-coverage="100% (3/3)"/>
-            <line number="77" hits="10125" branch="true" condition-coverage="50% (1/2)"/>
-            <line number="78" hits="10125" branch="false"/>
-            <line number="80" hits="10125" branch="true" condition-coverage="100% (2/2)"/>
-            <line number="81" hits="10125" branch="false"/>
-            <line number="83" hits="50637" branch="false"/>
-            <line number="86" hits="10125" branch="false"/>
+            <line number="73" hits="8154" branch="false"/>
+            <line number="74" hits="8154" branch="false"/>
+            <line number="75" hits="57090" branch="true" condition-coverage="100% (3/3)"/>
+            <line number="77" hits="8154" branch="true" condition-coverage="50% (1/2)"/>
+            <line number="78" hits="8154" branch="false"/>
+            <line number="80" hits="8154" branch="true" condition-coverage="100% (2/2)"/>
+            <line number="81" hits="8154" branch="false"/>
+            <line number="83" hits="40782" branch="false"/>
+            <line number="86" hits="8154" branch="false"/>
             <line number="89" hits="1" branch="false"/>
             <line number="93" hits="223" branch="false"/>
-            <line number="94" hits="10122" branch="false"/>
+            <line number="94" hits="8151" branch="false"/>
           </lines>
         </class>
         <class name="index.ts" filename="src/util/index.ts" line-rate="1" branch-rate="1">
