@@ -14,7 +14,7 @@ export function convertSpecialFields<E>(
   switch (meta.dataType) {
     case 'date':
       if (clone[key] !== null) {
-        params.push((clone[key] as Date).toString());
+        params.push((clone[key] as Date).toISOString());
       } else {
         params.push(null);
       }
