@@ -39,7 +39,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="tsd-signature-type">IDataBase</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/DbType.html" class="tsd-signature-type" data-tsd-kind="Type alias">DbType</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">RunResult</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">P</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">C</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">X</span><span class="tsd-signature-symbol">&gt;</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L31">src/class/SQLCon.ts:31</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L31">src/class/SQLCon.ts:31</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -71,8 +71,10 @@
 <a href="SQLCon.html#error" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>error</span></a>
 <a href="SQLCon.html#execScripts" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>exec<wbr/>Scripts</span></a>
 <a href="SQLCon.html#findEntity" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>find<wbr/>Entity</span></a>
+<a href="SQLCon.html#getCClient" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>getCClient</span></a>
 <a href="SQLCon.html#getCache" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Cache</span></a>
 <a href="SQLCon.html#getConfig" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Config</span></a>
+<a href="SQLCon.html#getConfigStore" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Config<wbr/>Store</span></a>
 <a href="SQLCon.html#getCurrenDBVersion" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>CurrenDBVersion</span></a>
 <a href="SQLCon.html#getEntityById" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Entity<wbr/>By<wbr/>Id</span></a>
 <a href="SQLCon.html#getEntityList" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Entity<wbr/>List</span></a>
@@ -134,7 +136,7 @@
 <h4 class="tsd-returns-title">Returns <a href="SQLCon.html" class="tsd-signature-type" data-tsd-kind="Class">SQLCon</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">P</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">C</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">X</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Overrides CoreDBCon&lt;DbType, RunResult, K, T, P, C, X&gt;.constructor</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L45">src/class/SQLCon.ts:45</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L45">src/class/SQLCon.ts:45</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited tsd-is-external"><a id="channel" class="tsd-anchor"></a>
@@ -147,7 +149,7 @@
 <h3 class="tsd-anchor-link"><span>db</span><a href="#db" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">db<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Database</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L41">src/class/SQLCon.ts:41</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L41">src/class/SQLCon.ts:41</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="dbVersion" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>db<wbr/>Version</span><a href="#dbVersion" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">db<wbr/>Version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
@@ -164,7 +166,7 @@
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>path</span><a href="#path" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L43">src/class/SQLCon.ts:43</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L43">src/class/SQLCon.ts:43</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="schemaName" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>schema<wbr/>Name</span><a href="#schemaName" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">schema<wbr/>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
@@ -203,7 +205,7 @@
 <p>Implementation of IDataBase.configExist</p>
 <p>Overrides CoreDBCon.configExist</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L297">src/class/SQLCon.ts:297</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L297">src/class/SQLCon.ts:297</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="connect" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>connect</span><a href="#connect" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -213,7 +215,7 @@
 <p>Implementation of IDataBase.connect</p>
 <p>Overrides CoreDBCon.connect</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L249">src/class/SQLCon.ts:249</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L249">src/class/SQLCon.ts:249</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="createEntity" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>create<wbr/>Entity</span><a href="#createEntity" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -235,7 +237,7 @@
 <p>Implementation of IDataBase.createEntity</p>
 <p>Overrides CoreDBCon.createEntity</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L60">src/class/SQLCon.ts:60</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L60">src/class/SQLCon.ts:60</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="debug" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>debug</span><a href="#debug" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -267,7 +269,7 @@
 <p>Implementation of IDataBase.deleteEntityById</p>
 <p>Overrides CoreDBCon.deleteEntityById</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L135">src/class/SQLCon.ts:135</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L135">src/class/SQLCon.ts:135</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="disconnect" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>disconnect</span><a href="#disconnect" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -277,7 +279,7 @@
 <p>Implementation of IDataBase.disconnect</p>
 <p>Overrides CoreDBCon.disconnect</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L348">src/class/SQLCon.ts:348</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L348">src/class/SQLCon.ts:348</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="error" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>error</span><a href="#error" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -307,7 +309,7 @@
 <p>Implementation of IDataBase.execScripts</p>
 <p>Overrides CoreDBCon.execScripts</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L335">src/class/SQLCon.ts:335</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L335">src/class/SQLCon.ts:335</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="findEntity" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>find<wbr/>Entity</span><a href="#findEntity" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -329,7 +331,21 @@
 <p>Implementation of IDataBase.findEntity</p>
 <p>Overrides CoreDBCon.findEntity</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L114">src/class/SQLCon.ts:114</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L114">src/class/SQLCon.ts:114</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="getCClient" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>getCClient</span><a href="#getCClient" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+<li class="tsd-signature tsd-anchor-link" id="getCClient.getCClient-1">getCClient<span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">X</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">X</span><a href="#getCClient.getCClient-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<section class="tsd-panel tsd-type-parameters">
+<h4>Type Parameters</h4>
+<ul class="tsd-type-parameters">
+<li>
+<h4>X<span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">ICoreCClient</span></h4></li></ul></section>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type" data-tsd-kind="Type parameter">X</span></h4><aside class="tsd-sources">
+<p>Inherited from CoreDBCon.getCClient</p>
+<ul>
+<li>Defined in node_modules/@grandlinex/core/dist/classes/CoreElement.d.ts:9</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="getCache" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Cache</span><a href="#getCache" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -354,7 +370,16 @@
 <p>Implementation of IDataBase.getConfig</p>
 <p>Overrides CoreDBCon.getConfig</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L326">src/class/SQLCon.ts:326</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L326">src/class/SQLCon.ts:326</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="getConfigStore" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>get<wbr/>Config<wbr/>Store</span><a href="#getConfigStore" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+<li class="tsd-signature tsd-anchor-link" id="getConfigStore.getConfigStore-1">get<wbr/>Config<wbr/>Store<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IStore</span><a href="#getConfigStore.getConfigStore-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">IStore</span></h4><aside class="tsd-sources">
+<p>Inherited from CoreDBCon.getConfigStore</p>
+<ul>
+<li>Defined in node_modules/@grandlinex/core/dist/classes/CoreElement.d.ts:8</li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="getCurrenDBVersion" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>CurrenDBVersion</span><a href="#getCurrenDBVersion" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -386,7 +411,7 @@
 <p>Implementation of IDataBase.getEntityById</p>
 <p>Overrides CoreDBCon.getEntityById</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L97">src/class/SQLCon.ts:97</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L97">src/class/SQLCon.ts:97</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getEntityList" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Entity<wbr/>List</span><a href="#getEntityList" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -406,7 +431,7 @@
 <p>Implementation of IDataBase.getEntityList</p>
 <p>Overrides CoreDBCon.getEntityList</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L144">src/class/SQLCon.ts:144</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L144">src/class/SQLCon.ts:144</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="getEntityMeta" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Entity<wbr/>Meta</span><a href="#getEntityMeta" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -439,9 +464,9 @@
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="getKernel" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Kernel</span><a href="#getKernel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-<li class="tsd-signature tsd-anchor-link" id="getKernel.getKernel-1">get<wbr/>Kernel<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ICoreKernel</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><a href="#getKernel.getKernel-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="getKernel.getKernel-1">get<wbr/>Kernel<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">K</span><a href="#getKernel.getKernel-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ICoreKernel</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type" data-tsd-kind="Type parameter">K</span></h4><aside class="tsd-sources">
 <p>Inherited from CoreDBCon.getKernel</p>
 <ul>
 <li>Defined in node_modules/@grandlinex/core/dist/classes/CoreElement.d.ts:6</li></ul></aside></li></ul></section>
@@ -484,7 +509,7 @@
 <p>Implementation of IDataBase.getRawDBObject</p>
 <p>Overrides CoreDBCon.getRawDBObject</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L293">src/class/SQLCon.ts:293</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L293">src/class/SQLCon.ts:293</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="info" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>info</span><a href="#info" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -521,7 +546,7 @@
 <p>Implementation of IDataBase.initEntity</p>
 <p>Overrides CoreDBCon.initEntity</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L181">src/class/SQLCon.ts:181</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L181">src/class/SQLCon.ts:181</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="initNewDB" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>init<wbr/>NewDB</span><a href="#initNewDB" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -531,7 +556,7 @@
 <p>Implementation of IDataBase.initNewDB</p>
 <p>Overrides CoreDBCon.initNewDB</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L245">src/class/SQLCon.ts:245</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L245">src/class/SQLCon.ts:245</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="isConnected" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>is<wbr/>Connected</span><a href="#isConnected" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -605,7 +630,7 @@
 <p>Implementation of IDataBase.removeConfig</p>
 <p>Overrides CoreDBCon.removeConfig</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L226">src/class/SQLCon.ts:226</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L226">src/class/SQLCon.ts:226</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="setConfig" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>set<wbr/>Config</span><a href="#setConfig" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -622,7 +647,7 @@
 <p>Implementation of IDataBase.setConfig</p>
 <p>Overrides CoreDBCon.setConfig</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L307">src/class/SQLCon.ts:307</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L307">src/class/SQLCon.ts:307</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="setConnected" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>set<wbr/>Connected</span><a href="#setConnected" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -719,7 +744,7 @@
 <h5>entity: <span class="tsd-signature-type" data-tsd-kind="Type parameter">E</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L197">src/class/SQLCon.ts:197</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L197">src/class/SQLCon.ts:197</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="update" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>update</span><a href="#update" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -753,7 +778,7 @@
 <p>Implementation of IDataBase.updateEntity</p>
 <p>Overrides CoreDBCon.updateEntity</p>
 <ul>
-<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/9b1c090/src/class/SQLCon.ts#L79">src/class/SQLCon.ts:79</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/GrandlineX/bundle-sqlight/blob/bfd4f51/src/class/SQLCon.ts#L79">src/class/SQLCon.ts:79</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a id="verbose" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>verbose</span><a href="#verbose" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -827,8 +852,10 @@
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="SQLCon.html#error" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>error</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="SQLCon.html#execScripts" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>exec<wbr/>Scripts</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="SQLCon.html#findEntity" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>find<wbr/>Entity</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="SQLCon.html#getCClient" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>getCClient</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="SQLCon.html#getCache" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Cache</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="SQLCon.html#getConfig" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Config</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="SQLCon.html#getConfigStore" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Config<wbr/>Store</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="SQLCon.html#getCurrenDBVersion" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>CurrenDBVersion</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="SQLCon.html#getEntityById" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Entity<wbr/>By<wbr/>Id</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="SQLCon.html#getEntityList" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Entity<wbr/>List</a></li>
