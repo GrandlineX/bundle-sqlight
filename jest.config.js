@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   testRegex: "(/tests/*.test.ts|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
   coverageReporters: ["html", "text", "text-summary", "cobertura", "lcov"],
   collectCoverageFrom: ["**/*.ts", "!**/node_modules/**","!tests/**"],
