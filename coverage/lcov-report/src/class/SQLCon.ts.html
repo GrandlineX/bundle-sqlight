@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">63.82% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>60/94</span>
+                <span class='fraction'>18/30</span>
             </div>
         
             
@@ -413,9 +413,7 @@
 <a name='L348'></a><a href='#L348'>348</a>
 <a name='L349'></a><a href='#L349'>349</a>
 <a name='L350'></a><a href='#L350'>350</a>
-<a name='L351'></a><a href='#L351'>351</a>
-<a name='L352'></a><a href='#L352'>352</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L351'></a><a href='#L351'>351</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -765,8 +763,7 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as Path from 'path';
-import { RunResult } from 'better-sqlite3';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Path from 'path';
 import {
   ConfigType,
   CoreDBCon,
@@ -784,7 +781,7 @@ import {
   QueryInterface,
   RawQuery,
 } from '@grandlinex/core';
-import Database = require('better-sqlite3');
+import Database, { RunResult } from 'better-sqlite3';
 import {
   buildSearchQ,
   mappingWithDataType,
@@ -865,13 +862,13 @@ export default class SQLCon&lt;
     config: EntityConfig&lt;E&gt;,
     id: string
   ): Promise&lt;E | null&gt; {
-    const query = this.db<span class="branch-0 cbranch-no" title="branch not covered" >?.p</span>repare(
+    const query = this.db?.prepare(
       `SELECT *
              FROM ${this.schemaName}.${config.className}
              WHERE e_id = ?;`
     );
 &nbsp;
-    const res = query<span class="branch-0 cbranch-no" title="branch not covered" >?.g</span>et([id]);
+    const res = query?.get([id]);
     if (res) {
       return rowToObj&lt;E&gt;(config, res);
     }
@@ -887,12 +884,12 @@ export default class SQLCon&lt;
 &nbsp;
     searchQ = buildSearchQ&lt;E&gt;(config, search, param, searchQ);
 &nbsp;
-    const query = this.db<span class="branch-0 cbranch-no" title="branch not covered" >?.p</span>repare(
+    const query = this.db?.prepare(
       `SELECT *
              FROM ${this.schemaName}.${config.className} ${searchQ};`
     );
 &nbsp;
-    const res = query<span class="branch-0 cbranch-no" title="branch not covered" >?.g</span>et(param);
+    const res = query?.get(param);
     if (res) {
       return rowToObj&lt;E&gt;(config, res);
     }
@@ -900,12 +897,12 @@ export default class SQLCon&lt;
   }
 &nbsp;
   async deleteEntityById(className: string, id: string): Promise&lt;boolean&gt; {
-    const query = this.db<span class="branch-0 cbranch-no" title="branch not covered" >?.p</span>repare(
+    const query = this.db?.prepare(
       `DELETE
              FROM ${this.schemaName}.${className}
              WHERE e_id = ?;`
     );
-    return query<span class="branch-0 cbranch-no" title="branch not covered" >?.r</span>un([id]).changes === 1;
+    return query?.run([id]).changes === 1;
   }
 &nbsp;
   async getEntityList&lt;E extends CoreEntity&gt;(
@@ -930,7 +927,7 @@ export default class SQLCon&lt;
       });
       orderByQ = `ORDER BY ${orderBy.join(',\n')}`;
     }
-    const query = this.db<span class="branch-0 cbranch-no" title="branch not covered" >?.p</span>repare(
+    const query = this.db?.prepare(
       `SELECT *
              FROM ${this.schemaName}.${config.className} 
              ${searchQ} 
@@ -938,7 +935,7 @@ export default class SQLCon&lt;
              ${range};`
     );
 &nbsp;
-    const res = query<span class="branch-0 cbranch-no" title="branch not covered" >?.a</span>ll(param);
+    const res = query?.all(param);
     if (res) {
       return tableToObj&lt;E&gt;(config, res);
     }
@@ -969,7 +966,7 @@ export default class SQLCon&lt;
       const meta = getColumnMeta(entity, key);
       if (key === 'e_id') {
         out.push(`e_id TEXT PRIMARY KEY`);
-      } else if (meta<span class="branch-0 cbranch-no" title="branch not covered" >?.d</span>ataType) {
+      } else if (meta?.dataType) {
         mappingWithDataType(meta, out, key);
       } else <span class="missing-if-branch" title="else path not taken" >E</span>{
         const type = <span class="cstat-no" title="statement not covered" >typeof entity[key];</span>
@@ -990,7 +987,7 @@ export default class SQLCon&lt;
     return out.join(',\n');
   }
 &nbsp;
-  async <span class="fstat-no" title="function not covered" >removeConfig(</span>key: string): Promise&lt;void&gt; {
+<span class="fstat-no" title="function not covered" >  async </span>removeConfig(key: string): Promise&lt;void&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
       const query = <span class="cstat-no" title="statement not covered" >await this.execScripts([</span>
         {
@@ -1061,7 +1058,7 @@ export default class SQLCon&lt;
 <span class="cstat-no" title="statement not covered" >    return this.db;</span>
   }
 &nbsp;
-  async <span class="fstat-no" title="function not covered" >configExist(</span>key: string): Promise&lt;boolean&gt; {
+<span class="fstat-no" title="function not covered" >  async </span>configExist(key: string): Promise&lt;boolean&gt; {
     const query = <span class="cstat-no" title="statement not covered" >this.db?.prepare(</span>
       `SELECT *
              FROM ${this.schemaName}.config
@@ -1072,7 +1069,7 @@ export default class SQLCon&lt;
   }
 &nbsp;
   async setConfig(key: string, value: string): Promise&lt;boolean&gt; {
-    const query = this.db<span class="branch-0 cbranch-no" title="branch not covered" >?.p</span>repare(
+    const query = this.db?.prepare(
       `REPLACE INTO
             ${this.schemaName}
             .
@@ -1091,20 +1088,20 @@ export default class SQLCon&lt;
   }
 &nbsp;
   async getConfig(key: string): Promise&lt;ConfigType&gt; {
-    const query = this.db<span class="branch-0 cbranch-no" title="branch not covered" >?.p</span>repare(
+    const query = this.db?.prepare(
       `SELECT *
              FROM ${this.schemaName}.config
              WHERE c_key = '${key}'`
     );
-    return query<span class="branch-0 cbranch-no" title="branch not covered" >?.g</span>et();
+    return query?.get();
   }
 &nbsp;
   async execScripts(list: RawQuery[]): Promise&lt;RunResult[]&gt; {
     const result: any[] = [];
     list.forEach((el) =&gt; {
-      const prep = this.db<span class="branch-0 cbranch-no" title="branch not covered" >?.p</span>repare(el.exec);
+      const prep = this.db?.prepare(el.exec);
 &nbsp;
-      const res = prep<span class="branch-0 cbranch-no" title="branch not covered" >?.r</span>un(el.param);
+      const res = prep?.run(el.param);
       if (res) {
         result.push(res);
       }
@@ -1123,7 +1120,7 @@ export default class SQLCon&lt;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-02-03T16:58:32.996Z
+                at 2023-04-03T20:07:52.145Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
