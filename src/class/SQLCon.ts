@@ -1,5 +1,4 @@
-import * as Path from 'path';
-import { RunResult } from 'better-sqlite3';
+import Path from 'path';
 import {
   ConfigType,
   CoreDBCon,
@@ -17,7 +16,7 @@ import {
   QueryInterface,
   RawQuery,
 } from '@grandlinex/core';
-import Database = require('better-sqlite3');
+import Database, { RunResult } from 'better-sqlite3';
 import {
   buildSearchQ,
   mappingWithDataType,
