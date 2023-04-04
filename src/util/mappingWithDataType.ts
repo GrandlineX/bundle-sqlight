@@ -1,5 +1,5 @@
 import { ColumnProps, CoreEntity } from '@grandlinex/core';
-import resolveDBType from './resolveDBType';
+import resolveDBType from './resolveDBType.js';
 
 export default function mappingWithDataType<E extends CoreEntity>(
   meta: ColumnProps,

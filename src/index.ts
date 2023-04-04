@@ -1,5 +1,5 @@
-import SQLCon, { DbType } from './class/SQLCon';
+import SQLCon, { DbType } from './class/SQLCon.js';
 
-export * from './util';
+export * from './util/index.js';
 export { SQLCon, DbType };
 export default SQLCon;

@@ -1,6 +1,6 @@
-import buildSearchQ from './buildSearchQ';
-import resolveDBType from './resolveDBType';
-import mappingWithDataType from './mappingWithDataType';
+import buildSearchQ from './buildSearchQ.js';
+import resolveDBType from './resolveDBType.js';
+import mappingWithDataType from './mappingWithDataType.js';
 
-export * from './converter';
+export * from './converter.js';
 export { buildSearchQ, resolveDBType, mappingWithDataType };
