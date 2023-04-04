@@ -5,7 +5,7 @@ import {
     TestKernel,
     XUtil,
 } from '@grandlinex/core';
-import { SQLCon } from '../src';
+import { SQLCon } from '../index.js';
 
 const appName = 'TestKernel';
 const appCode = 'tkernel';

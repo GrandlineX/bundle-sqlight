@@ -1,5 +1,5 @@
 import { EntityConfig } from '@grandlinex/core';
-import { convertSpecialFields } from './converter';
+import { convertSpecialFields } from './converter.js';
 
 export default function buildSearchQ<E>(
   config: EntityConfig<E>,
