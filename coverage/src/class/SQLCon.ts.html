@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.13% </span>
+                <span class="strong">74.35% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>86/116</span>
+                <span class='fraction'>87/117</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.13% </span>
+                <span class="strong">74.35% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>86/116</span>
+                <span class='fraction'>87/117</span>
             </div>
         
             
@@ -57,7 +57,7 @@
         <template id="filterTemplate">
             <div class="quiet">
                 Filter:
-                <input oninput="onInput()" type="search" id="fileSearch">
+                <input type="search" id="fileSearch">
             </div>
         </template>
     </div>
@@ -413,7 +413,8 @@
 <a name='L348'></a><a href='#L348'>348</a>
 <a name='L349'></a><a href='#L349'>349</a>
 <a name='L350'></a><a href='#L350'>350</a>
-<a name='L351'></a><a href='#L351'>351</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L351'></a><a href='#L351'>351</a>
+<a name='L352'></a><a href='#L352'>352</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -760,6 +761,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -797,7 +799,7 @@ export default class SQLCon&lt;
     T extends IDataBase&lt;any, any&gt; | null = any,
     P extends ICoreClient | null = any,
     C extends ICoreCache | null = any,
-    X extends ICorePresenter&lt;any&gt; | null = any
+    X extends ICorePresenter&lt;any&gt; | null = any,
   &gt;
   extends CoreDBCon&lt;DbType, RunResult, K, T, P, C, X&gt;
   implements IDataBase&lt;DbType, RunResult, K, T, P, C, X&gt;
@@ -808,7 +810,7 @@ export default class SQLCon&lt;
 &nbsp;
   constructor(
     module: ICoreKernelModule&lt;any, any, any, any, any&gt;,
-    dbversion: string
+    dbversion: string,
   ) {
     super(dbversion, 'main', module);
     const store = module.getKernel().getConfigStore();
@@ -823,12 +825,12 @@ export default class SQLCon&lt;
 &nbsp;
   async createEntity&lt;E extends CoreEntity&gt;(
     config: EntityConfig&lt;E&gt;,
-    entity: EProperties&lt;E&gt;
+    entity: EProperties&lt;E&gt;,
   ): Promise&lt;E&gt; {
     const [keys, values, params] = objToTable(entity, config);
     const query: RawQuery = {
       exec: `INSERT INTO ${this.schemaName}.${config.className}(${keys.join(
-        ', '
+        ', ',
       )})
                    VALUES (${values.join(', ')})`,
       param: params,
@@ -843,7 +845,7 @@ export default class SQLCon&lt;
   async updateEntity&lt;E extends CoreEntity&gt;(
     config: EntityConfig&lt;E&gt;,
     e_id: string,
-    entity: EUpDateProperties&lt;E&gt;
+    entity: EUpDateProperties&lt;E&gt;,
   ): Promise&lt;boolean&gt; {
     const [, values, params] = objToTable(entity, config, true);
     const result = await this.execScripts([
@@ -860,12 +862,12 @@ export default class SQLCon&lt;
 &nbsp;
   async getEntityById&lt;E extends CoreEntity&gt;(
     config: EntityConfig&lt;E&gt;,
-    id: string
+    id: string,
   ): Promise&lt;E | null&gt; {
     const query = this.db?.prepare(
       `SELECT *
              FROM ${this.schemaName}.${config.className}
-             WHERE e_id = ?;`
+             WHERE e_id = ?;`,
     );
 &nbsp;
     const res = query?.get([id]);
@@ -877,7 +879,7 @@ export default class SQLCon&lt;
 &nbsp;
   async findEntity&lt;E extends CoreEntity&gt;(
     config: EntityConfig&lt;E&gt;,
-    search: { [D in keyof E]?: E[D] | undefined }
+    search: { [D in keyof E]?: E[D] | undefined },
   ): Promise&lt;E | null&gt; {
     let searchQ = '';
     const param: any[] = [];
@@ -886,7 +888,7 @@ export default class SQLCon&lt;
 &nbsp;
     const query = this.db?.prepare(
       `SELECT *
-             FROM ${this.schemaName}.${config.className} ${searchQ};`
+             FROM ${this.schemaName}.${config.className} ${searchQ};`,
     );
 &nbsp;
     const res = query?.get(param);
@@ -900,13 +902,13 @@ export default class SQLCon&lt;
     const query = this.db?.prepare(
       `DELETE
              FROM ${this.schemaName}.${className}
-             WHERE e_id = ?;`
+             WHERE e_id = ?;`,
     );
     return query?.run([id]).changes === 1;
   }
 &nbsp;
   async getEntityList&lt;E extends CoreEntity&gt;(
-    q: QueryInterface&lt;E&gt;
+    q: QueryInterface&lt;E&gt;,
   ): Promise&lt;E[]&gt; {
     const { limit, search, config, order, offset } = q;
     if (limit === 0) {
@@ -932,7 +934,7 @@ export default class SQLCon&lt;
              FROM ${this.schemaName}.${config.className} 
              ${searchQ} 
              ${orderByQ} 
-             ${range};`
+             ${range};`,
     );
 &nbsp;
     const res = query?.all(param);
@@ -944,7 +946,7 @@ export default class SQLCon&lt;
 &nbsp;
   async initEntity&lt;E extends CoreEntity&gt;(
     className: string,
-    entity: E
+    entity: E,
   ): Promise&lt;boolean&gt; {
     await this.execScripts([
       {
@@ -1022,9 +1024,9 @@ export default class SQLCon&lt;
     try {
       const query = this.db.prepare(
         `SELECT *
-                 FROM ${this.schemaName}.config;`
+                 FROM ${this.schemaName}.config;`,
       );
-      const result = <span class="cstat-no" title="statement not covered" >query.all();</span>
+      const result = <span class="cstat-no" title="statement not covered" >query.all() as any[];</span>
       const version = <span class="cstat-no" title="statement not covered" >result.find(<span class="fstat-no" title="function not covered" >(e</span>l) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        return el.c_key === 'dbversion';</span>
       });
@@ -1062,9 +1064,9 @@ export default class SQLCon&lt;
     const query = <span class="cstat-no" title="statement not covered" >this.db?.prepare(</span>
       `SELECT *
              FROM ${this.schemaName}.config
-             WHERE c_key = '${key}'`
+             WHERE c_key = '${key}'`,
     );
-    const exist = <span class="cstat-no" title="statement not covered" >query?.get();</span>
+    const exist = <span class="cstat-no" title="statement not covered" >query?.get() as any;</span>
 <span class="cstat-no" title="statement not covered" >    return !!exist &amp;&amp; exist.c_key !== undefined &amp;&amp; exist.c_value !== undefined;</span>
   }
 &nbsp;
@@ -1078,7 +1080,7 @@ export default class SQLCon&lt;
             c_key,
             c_value
             )
-            VALUES ('${key}', '${value}');`
+            VALUES ('${key}', '${value}');`,
     );
     <span class="missing-if-branch" title="if path not taken" >I</span>if (query === undefined) {
 <span class="cstat-no" title="statement not covered" >      return false;</span>
@@ -1091,9 +1093,9 @@ export default class SQLCon&lt;
     const query = this.db?.prepare(
       `SELECT *
              FROM ${this.schemaName}.config
-             WHERE c_key = '${key}'`
+             WHERE c_key = '${key}'`,
     );
-    return query?.get();
+    return query?.get() as any;
   }
 &nbsp;
   async execScripts(list: RawQuery[]): Promise&lt;RunResult[]&gt; {
@@ -1110,6 +1112,7 @@ export default class SQLCon&lt;
   }
 &nbsp;
   async disconnect(): Promise&lt;boolean&gt; {
+    this.db?.close();
     return true;
   }
 }
@@ -1120,7 +1123,7 @@ export default class SQLCon&lt;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-08-23T17:48:12.399Z
+                at 2024-05-28T16:29:19.479Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
