@@ -5,7 +5,7 @@ export default function buildSearchQ<E>(
   config: EntityConfig<E>,
   search: { [P in keyof E]?: E[P] },
   param: any[],
-  searchQ: string
+  searchQ: string,
 ) {
   let temp = searchQ;
   const keys: (keyof E)[] = Object.keys(search) as (keyof E)[];

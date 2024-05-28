@@ -9,7 +9,7 @@ export function convertSpecialFields<E>(
   meta: ColumnProps,
   clone: any,
   key: keyof E,
-  params: any[]
+  params: any[],
 ) {
   switch (meta.dataType) {
     case 'date':
@@ -34,7 +34,7 @@ export function convertSpecialFields<E>(
 export function objToTable<E extends CoreEntity>(
   entity: E | EUpDateProperties<E>,
   config: EntityConfig<E>,
-  update?: boolean
+  update?: boolean,
 ): [(keyof E)[], string[], unknown[]] {
   const clone: any = entity;
   const keysOriginal = Object.keys(entity) as (keyof E)[];
@@ -68,7 +68,7 @@ export function objToTable<E extends CoreEntity>(
 
 export function rowToObj<E extends CoreEntity>(
   config: EntityConfig<E>,
-  row: any
+  row: any,
 ): E {
   const clone: any = row;
   config.meta.forEach((value, key) => {
@@ -88,7 +88,7 @@ export function rowToObj<E extends CoreEntity>(
 
 export function tableToObj<E extends CoreEntity>(
   config: EntityConfig<E>,
-  table: any[]
+  table: any[],
 ): E[] {
   return table.map((row) => {
     return rowToObj(config, row);

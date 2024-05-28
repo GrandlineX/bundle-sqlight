@@ -32,7 +32,7 @@ export default class SQLCon<
     T extends IDataBase<any, any> | null = any,
     P extends ICoreClient | null = any,
     C extends ICoreCache | null = any,
-    X extends ICorePresenter<any> | null = any
+    X extends ICorePresenter<any> | null = any,
   >
   extends CoreDBCon<DbType, RunResult, K, T, P, C, X>
   implements IDataBase<DbType, RunResult, K, T, P, C, X>
@@ -43,7 +43,7 @@ export default class SQLCon<
 
   constructor(
     module: ICoreKernelModule<any, any, any, any, any>,
-    dbversion: string
+    dbversion: string,
   ) {
     super(dbversion, 'main', module);
     const store = module.getKernel().getConfigStore();
@@ -58,12 +58,12 @@ export default class SQLCon<
 
   async createEntity<E extends CoreEntity>(
     config: EntityConfig<E>,
-    entity: EProperties<E>
+    entity: EProperties<E>,
   ): Promise<E> {
     const [keys, values, params] = objToTable(entity, config);
     const query: RawQuery = {
       exec: `INSERT INTO ${this.schemaName}.${config.className}(${keys.join(
-        ', '
+        ', ',
       )})
                    VALUES (${values.join(', ')})`,
       param: params,
@@ -78,7 +78,7 @@ export default class SQLCon<
   async updateEntity<E extends CoreEntity>(
     config: EntityConfig<E>,
     e_id: string,
-    entity: EUpDateProperties<E>
+    entity: EUpDateProperties<E>,
   ): Promise<boolean> {
     const [, values, params] = objToTable(entity, config, true);
     const result = await this.execScripts([
@@ -95,12 +95,12 @@ export default class SQLCon<
 
   async getEntityById<E extends CoreEntity>(
     config: EntityConfig<E>,
-    id: string
+    id: string,
   ): Promise<E | null> {
     const query = this.db?.prepare(
       `SELECT *
              FROM ${this.schemaName}.${config.className}
-             WHERE e_id = ?;`
+             WHERE e_id = ?;`,
     );
 
     const res = query?.get([id]);
@@ -112,7 +112,7 @@ export default class SQLCon<
 
   async findEntity<E extends CoreEntity>(
     config: EntityConfig<E>,
-    search: { [D in keyof E]?: E[D] | undefined }
+    search: { [D in keyof E]?: E[D] | undefined },
   ): Promise<E | null> {
     let searchQ = '';
     const param: any[] = [];
@@ -121,7 +121,7 @@ export default class SQLCon<
 
     const query = this.db?.prepare(
       `SELECT *
-             FROM ${this.schemaName}.${config.className} ${searchQ};`
+             FROM ${this.schemaName}.${config.className} ${searchQ};`,
     );
 
     const res = query?.get(param);
@@ -135,13 +135,13 @@ export default class SQLCon<
     const query = this.db?.prepare(
       `DELETE
              FROM ${this.schemaName}.${className}
-             WHERE e_id = ?;`
+             WHERE e_id = ?;`,
     );
     return query?.run([id]).changes === 1;
   }
 
   async getEntityList<E extends CoreEntity>(
-    q: QueryInterface<E>
+    q: QueryInterface<E>,
   ): Promise<E[]> {
     const { limit, search, config, order, offset } = q;
     if (limit === 0) {
@@ -167,7 +167,7 @@ export default class SQLCon<
              FROM ${this.schemaName}.${config.className} 
              ${searchQ} 
              ${orderByQ} 
-             ${range};`
+             ${range};`,
     );
 
     const res = query?.all(param);
@@ -179,7 +179,7 @@ export default class SQLCon<
 
   async initEntity<E extends CoreEntity>(
     className: string,
-    entity: E
+    entity: E,
   ): Promise<boolean> {
     await this.execScripts([
       {
@@ -257,9 +257,9 @@ export default class SQLCon<
     try {
       const query = this.db.prepare(
         `SELECT *
-                 FROM ${this.schemaName}.config;`
+                 FROM ${this.schemaName}.config;`,
       );
-      const result = query.all();
+      const result = query.all() as any[];
       const version = result.find((el) => {
         return el.c_key === 'dbversion';
       });
@@ -297,9 +297,9 @@ export default class SQLCon<
     const query = this.db?.prepare(
       `SELECT *
              FROM ${this.schemaName}.config
-             WHERE c_key = '${key}'`
+             WHERE c_key = '${key}'`,
     );
-    const exist = query?.get();
+    const exist = query?.get() as any;
     return !!exist && exist.c_key !== undefined && exist.c_value !== undefined;
   }
 
@@ -313,7 +313,7 @@ export default class SQLCon<
             c_key,
             c_value
             )
-            VALUES ('${key}', '${value}');`
+            VALUES ('${key}', '${value}');`,
     );
     if (query === undefined) {
       return false;
@@ -326,9 +326,9 @@ export default class SQLCon<
     const query = this.db?.prepare(
       `SELECT *
              FROM ${this.schemaName}.config
-             WHERE c_key = '${key}'`
+             WHERE c_key = '${key}'`,
     );
-    return query?.get();
+    return query?.get() as any;
   }
 
   async execScripts(list: RawQuery[]): Promise<RunResult[]> {
@@ -345,6 +345,7 @@ export default class SQLCon<
   }
 
   async disconnect(): Promise<boolean> {
+    this.db?.close();
     return true;
   }
 }

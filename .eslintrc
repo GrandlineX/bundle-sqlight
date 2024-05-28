@@ -36,6 +36,7 @@
     "class-methods-use-this": "warn",
     "linebreak-style": "off",
     "no-restricted-properties": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
     "import/extensions": [
       "warn",
       "ignorePackages",

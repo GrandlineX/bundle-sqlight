@@ -4,7 +4,7 @@ import resolveDBType from './resolveDBType.js';
 export default function mappingWithDataType<E extends CoreEntity>(
   meta: ColumnProps,
   out: string[],
-  key: keyof E
+  key: keyof E,
 ): void {
   if (!meta.dataType) {
     throw new Error('DataType not set');
