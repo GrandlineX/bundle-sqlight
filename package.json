@@ -45,7 +45,7 @@
   },
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@grandlinex/core": "0.32.0",
+    "@grandlinex/core": "1.0.0",
     "better-sqlite3": "10.0.0",
     "@types/better-sqlite3": "7.6.10"
   },
