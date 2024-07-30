@@ -13,6 +13,7 @@ import {
   ICoreKernelModule,
   ICorePresenter,
   IDataBase,
+  IEntity,
   QueryInterface,
   RawQuery,
 } from '@grandlinex/core';
@@ -93,6 +94,24 @@ export default class SQLCon<
     return result[0] !== null;
   }
 
+  async updateBulkEntity<E extends IEntity>(
+    config: EntityConfig<E>,
+    e_id: string[],
+    entity: EUpDateProperties<E>,
+  ): Promise<boolean> {
+    const [, values, params] = objToTable(entity, config, true);
+    const result = await this.execScripts([
+      {
+        exec: `UPDATE ${this.schemaName}.${config.className}
+                           SET ${values.join(', ')}
+                           WHERE e_id in (${e_id.map(() => '?').join(',')});`,
+        param: [...params, ...e_id],
+      },
+    ]);
+
+    return result[0] !== null;
+  }
+
   async getEntityById<E extends CoreEntity>(
     config: EntityConfig<E>,
     id: string,
@@ -108,6 +127,23 @@ export default class SQLCon<
       return rowToObj<E>(config, res);
     }
     return null;
+  }
+
+  async getEntityBulkById<E extends CoreEntity>(
+    config: EntityConfig<E>,
+    e_id: string[],
+  ): Promise<E[]> {
+    const query = this.db?.prepare(
+      `SELECT *
+             FROM ${this.schemaName}.${config.className}
+             WHERE e_id in (${e_id.map(() => '?').join(',')});`,
+    );
+
+    const res = query?.all(e_id);
+    if (res) {
+      return tableToObj<E>(config, res);
+    }
+    return [];
   }
 
   async findEntity<E extends CoreEntity>(
@@ -140,6 +176,18 @@ export default class SQLCon<
     return query?.run([id]).changes === 1;
   }
 
+  async deleteEntityBulkById(
+    className: string,
+    e_id: string[],
+  ): Promise<boolean> {
+    const query = this.db?.prepare(
+      `DELETE
+             FROM ${this.schemaName}.${className}
+             WHERE e_id in (${e_id.map(() => '?').join(',')});`,
+    );
+    return (query?.run([...e_id]).changes ?? 0) > 1;
+  }
+
   async getEntityList<E extends CoreEntity>(
     q: QueryInterface<E>,
   ): Promise<E[]> {
@@ -164,9 +212,9 @@ export default class SQLCon<
     }
     const query = this.db?.prepare(
       `SELECT *
-             FROM ${this.schemaName}.${config.className} 
-             ${searchQ} 
-             ${orderByQ} 
+             FROM ${this.schemaName}.${config.className}
+             ${searchQ}
+             ${orderByQ}
              ${range};`,
     );
 
