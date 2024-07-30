@@ -40,11 +40,14 @@ export default class SQLCon<
 {
   db: DbType | null;
 
+  printLog: boolean;
+
   private readonly path: string;
 
   constructor(
     module: ICoreKernelModule<any, any, any, any, any>,
     dbversion: string,
+    printLog = false,
   ) {
     super(dbversion, 'main', module);
     const store = module.getKernel().getConfigStore();
@@ -55,6 +58,7 @@ export default class SQLCon<
     }
     this.path = Path.join(path, `${module.getName()}.db`);
     this.db = null;
+    this.printLog = printLog;
   }
 
   async createEntity<E extends CoreEntity>(
@@ -99,6 +103,9 @@ export default class SQLCon<
     e_id: string[],
     entity: EUpDateProperties<E>,
   ): Promise<boolean> {
+    if (e_id.length === 0) {
+      return false;
+    }
     const [, values, params] = objToTable(entity, config, true);
     const result = await this.execScripts([
       {
@@ -133,6 +140,9 @@ export default class SQLCon<
     config: EntityConfig<E>,
     e_id: string[],
   ): Promise<E[]> {
+    if (e_id.length === 0) {
+      return [];
+    }
     const query = this.db?.prepare(
       `SELECT *
              FROM ${this.schemaName}.${config.className}
@@ -180,6 +190,9 @@ export default class SQLCon<
     className: string,
     e_id: string[],
   ): Promise<boolean> {
+    if (e_id.length === 0) {
+      return false;
+    }
     const query = this.db?.prepare(
       `DELETE
              FROM ${this.schemaName}.${className}
@@ -296,7 +309,11 @@ export default class SQLCon<
   async connect(): Promise<boolean> {
     try {
       this.db = new Database(this.path, {
-        verbose: this.debug,
+        verbose: (message, additionalArgs) => {
+          if (this.printLog) {
+            this.verbose(message, additionalArgs);
+          }
+        },
       });
     } catch (e) {
       this.error(e);
