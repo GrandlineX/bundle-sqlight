@@ -16,6 +16,7 @@ import {
   IEntity,
   QueryInterface,
   RawQuery,
+  QInterfaceSearch,
 } from '@grandlinex/core';
 import Database, { RunResult } from 'better-sqlite3';
 import {
@@ -158,7 +159,7 @@ export default class SQLCon<
 
   async findEntity<E extends CoreEntity>(
     config: EntityConfig<E>,
-    search: { [D in keyof E]?: E[D] | undefined },
+    search: QInterfaceSearch<E>,
   ): Promise<E | null> {
     let searchQ = '';
     const param: any[] = [];
@@ -223,13 +224,12 @@ export default class SQLCon<
       });
       orderByQ = `ORDER BY ${orderBy.join(',\n')}`;
     }
-    const query = this.db?.prepare(
-      `SELECT *
+
+    const query = this.db?.prepare(`SELECT *
              FROM ${this.schemaName}.${config.className}
              ${searchQ}
              ${orderByQ}
-             ${range};`,
-    );
+             ${range};`);
 
     const res = query?.all(param);
     if (res) {

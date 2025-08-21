@@ -1,9 +1,35 @@
-import { EntityConfig } from '@grandlinex/core';
+import {
+  CoreEntity,
+  EntityConfig,
+  isQInterfaceSearchAdvanced,
+  isQInterfaceSearchAdvancedArr,
+  QInterfaceSearch,
+  QInterfaceSearchAdvanced,
+} from '@grandlinex/core';
 import { convertSpecialFields } from './converter.js';
 
-export default function buildSearchQ<E>(
+function aFilter<E extends CoreEntity>(
+  key: string,
+  s: QInterfaceSearchAdvanced<QInterfaceSearch<E>, keyof E>,
+): string {
+  switch (s.mode) {
+    case 'equals':
+      return `${key} = ?`;
+    case 'not':
+      return `${key} != ?`;
+    case 'like':
+      return `${key} like '%' || ? || '%'`;
+    case 'smallerThan':
+      return `${key} < ?`;
+    case 'greaterThan':
+      return `${key} > ?`;
+    default:
+      throw new Error(`Unknown mode: ${s.mode}`);
+  }
+}
+export default function buildSearchQ<E extends CoreEntity>(
   config: EntityConfig<E>,
-  search: { [P in keyof E]?: E[P] },
+  search: QInterfaceSearch<E>,
   param: any[],
   searchQ: string,
 ) {
@@ -12,13 +38,26 @@ export default function buildSearchQ<E>(
   if (keys.length > 0) {
     const filter: string[] = [];
     for (const key of keys) {
-      if (search[key] !== undefined) {
-        const meta = config.meta.get(key);
-        if (!meta) {
-          throw new Error('Missing meta');
-        }
+      const s: QInterfaceSearch<E>[keyof E] = search[key];
+      const meta = config.meta.get(key);
+      if (!meta) {
+        throw new Error('Missing meta');
+      }
+
+      if (isQInterfaceSearchAdvanced(s)) {
+        filter.push(aFilter(String(key), s));
+        convertSpecialFields(meta, s.value, param);
+      } else if (isQInterfaceSearchAdvancedArr(s)) {
+        filter.push(
+          ...s.map((e) => {
+            const ax = aFilter(String(key), e);
+            convertSpecialFields(meta, e.value, param);
+            return ax;
+          }),
+        );
+      } else {
         filter.push(`${String(key)} = ?`);
-        convertSpecialFields(meta, search, key, param);
+        convertSpecialFields(meta, search[key], param);
       }
     }
     if (filter.length > 0) {

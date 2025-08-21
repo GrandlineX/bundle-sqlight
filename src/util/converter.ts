@@ -5,28 +5,27 @@ import {
   EUpDateProperties,
 } from '@grandlinex/core';
 
-export function convertSpecialFields<E>(
+export function convertSpecialFields(
   meta: ColumnProps,
-  clone: any,
-  key: keyof E,
+  value: any,
   params: any[],
 ) {
   switch (meta.dataType) {
     case 'date':
-      if (clone[key] !== null) {
-        params.push((clone[key] as Date).toISOString());
+      if (value !== null) {
+        params.push((value as Date).toISOString());
       } else {
         params.push(null);
       }
       break;
     case 'json':
-      params.push(JSON.stringify(clone[key]));
+      params.push(JSON.stringify(value));
       break;
     case 'boolean':
-      params.push(clone[key] ? 1 : 0);
+      params.push(value ? 1 : 0);
       break;
     default:
-      params.push(clone[key]);
+      params.push(value);
       break;
   }
 }
@@ -50,7 +49,7 @@ export function objToTable<E extends CoreEntity>(
     if (meta.primaryKey && update) {
       return;
     }
-    convertSpecialFields<E>(meta, clone, key, params);
+    convertSpecialFields(meta, clone[key], params);
     if (update) {
       values.push(`${String(key)}=?`);
     } else {

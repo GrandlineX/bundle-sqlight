@@ -19,7 +19,7 @@ const [kernel] = TestContext.getEntity(
 
 setupDevKernel(kernel, (mod) => {
   return {
-    db: new SQLCon(mod, '0'),
+    db: new SQLCon(mod, '0', ),
     // db: new InMemDB(mod),
   };
 });
