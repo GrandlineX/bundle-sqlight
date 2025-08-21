@@ -158,8 +158,7 @@
 <a name='L93'></a><a href='#L93'>93</a>
 <a name='L94'></a><a href='#L94'>94</a>
 <a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a>
-<a name='L97'></a><a href='#L97'>97</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L96'></a><a href='#L96'>96</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -171,8 +170,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1697x</span>
+<span class="cline-any cline-yes">1707x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">411x</span>
 <span class="cline-any cline-yes">403x</span>
@@ -187,8 +185,8 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1073x</span>
-<span class="cline-any cline-yes">1073x</span>
+<span class="cline-any cline-yes">1083x</span>
+<span class="cline-any cline-yes">1083x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -231,28 +229,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10390x</span>
-<span class="cline-any cline-yes">10390x</span>
-<span class="cline-any cline-yes">72748x</span>
+<span class="cline-any cline-yes">10402x</span>
+<span class="cline-any cline-yes">10402x</span>
+<span class="cline-any cline-yes">72832x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10390x</span>
-<span class="cline-any cline-yes">10390x</span>
+<span class="cline-any cline-yes">10402x</span>
+<span class="cline-any cline-yes">10402x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10390x</span>
-<span class="cline-any cline-yes">10390x</span>
+<span class="cline-any cline-yes">10402x</span>
+<span class="cline-any cline-yes">10402x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">51968x</span>
+<span class="cline-any cline-yes">52028x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10390x</span>
+<span class="cline-any cline-yes">10402x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">455x</span>
-<span class="cline-any cline-yes">10384x</span>
+<span class="cline-any cline-yes">463x</span>
+<span class="cline-any cline-yes">10396x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
@@ -262,28 +260,27 @@
   EUpDateProperties,
 } from '@grandlinex/core';
 &nbsp;
-export function convertSpecialFields&lt;E&gt;(
+export function convertSpecialFields(
   meta: ColumnProps,
-  clone: any,
-  key: keyof E,
+  value: any,
   params: any[],
 ) {
   switch (meta.dataType) {
     case 'date':
-      if (clone[key] !== null) {
-        params.push((clone[key] as Date).toISOString());
+      if (value !== null) {
+        params.push((value as Date).toISOString());
       } else {
         params.push(null);
       }
       break;
     case 'json':
-      params.push(JSON.stringify(clone[key]));
+      params.push(JSON.stringify(value));
       break;
     case 'boolean':
-      params.push(clone[key] ? 1 : <span class="branch-1 cbranch-no" title="branch not covered" >0)</span>;
+      params.push(value ? 1 : <span class="branch-1 cbranch-no" title="branch not covered" >0)</span>;
       break;
     default:
-      params.push(clone[key]);
+      params.push(value);
       break;
   }
 }
@@ -307,7 +304,7 @@ export function objToTable&lt;E extends CoreEntity&gt;(
     <span class="missing-if-branch" title="if path not taken" >I</span>if (meta.primaryKey &amp;&amp; update) {
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
-    convertSpecialFields&lt;E&gt;(meta, clone, key, params);
+    convertSpecialFields(meta, clone[key], params);
     if (update) {
       values.push(`${String(key)}=?`);
     } else {
@@ -358,7 +355,7 @@ export function tableToObj&lt;E extends CoreEntity&gt;(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-30T01:25:00.551Z
+                at 2025-08-21T00:21:22.443Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
