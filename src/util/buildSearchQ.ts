@@ -14,8 +14,14 @@ function aFilter<E extends CoreEntity>(
 ): string {
   switch (s.mode) {
     case 'equals':
+      if (s.value === null) {
+        return `${key} IS ?`;
+      }
       return `${key} = ?`;
     case 'not':
+      if (s.value === null) {
+        return `${key} IS NOT ?`;
+      }
       return `${key} != ?`;
     case 'like':
       return `${key} like '%' || ? || '%'`;
@@ -56,7 +62,12 @@ export default function buildSearchQ<E extends CoreEntity>(
           }),
         );
       } else {
-        filter.push(`${String(key)} = ?`);
+        if (search[key] === null) {
+          filter.push(`${String(key)} is ?`);
+        } else {
+          filter.push(`${String(key)} = ?`);
+        }
+
         convertSpecialFields(meta, search[key], param);
       }
     }
