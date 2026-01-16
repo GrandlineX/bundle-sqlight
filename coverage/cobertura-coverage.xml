@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
-<coverage lines-valid="256" lines-covered="208" line-rate="0.8125" branches-valid="102" branches-covered="71" branch-rate="0.696" timestamp="1762525122361" complexity="0" version="0.1">
+<coverage lines-valid="257" lines-covered="208" line-rate="0.8093" branches-valid="103" branches-covered="71" branch-rate="0.6893" timestamp="1768571644023" complexity="0" version="0.1">
   <sources>
     <source>/home/runner/work/bundle-sqlight/bundle-sqlight</source>
   </sources>
@@ -313,7 +313,7 @@
         </class>
       </classes>
     </package>
-    <package name="src.util" line-rate="0.8848999999999999" branch-rate="0.7812">
+    <package name="src.util" line-rate="0.8771" branch-rate="0.7692">
       <classes>
         <class name="buildSearchQ.ts" filename="src/util/buildSearchQ.ts" line-rate="0.8421" branch-rate="0.7058">
           <methods>
@@ -497,7 +497,7 @@
             <line number="28" hits="18" branch="false"/>
           </lines>
         </class>
-        <class name="resolveDBType.ts" filename="src/util/resolveDBType.ts" line-rate="0.9" branch-rate="0.8181">
+        <class name="resolveDBType.ts" filename="src/util/resolveDBType.ts" line-rate="0.8181" branch-rate="0.75">
           <methods>
             <method name="resolveDBType" hits="18" signature="()V">
               <lines>
@@ -507,15 +507,16 @@
           </methods>
           <lines>
             <line number="3" hits="1" branch="false"/>
-            <line number="4" hits="18" branch="true" condition-coverage="81.81818181818183% (9/11)"/>
+            <line number="4" hits="18" branch="true" condition-coverage="75% (9/12)"/>
             <line number="6" hits="2" branch="false"/>
-            <line number="9" hits="1" branch="false"/>
-            <line number="11" hits="4" branch="false"/>
-            <line number="15" hits="6" branch="false"/>
-            <line number="17" hits="1" branch="false"/>
-            <line number="19" hits="2" branch="false"/>
+            <line number="8" hits="0" branch="false"/>
+            <line number="11" hits="1" branch="false"/>
+            <line number="13" hits="4" branch="false"/>
+            <line number="17" hits="6" branch="false"/>
+            <line number="19" hits="1" branch="false"/>
             <line number="21" hits="2" branch="false"/>
-            <line number="23" hits="0" branch="false"/>
+            <line number="23" hits="2" branch="false"/>
+            <line number="25" hits="0" branch="false"/>
           </lines>
         </class>
       </classes>
