@@ -4,6 +4,8 @@ export default function resolveDBType(dType: DataType) {
   switch (dType) {
     case 'int':
       return 'INTEGER';
+    case 'long':
+      return 'BIGINT';
     case 'double':
     case 'float':
       return 'REAL';

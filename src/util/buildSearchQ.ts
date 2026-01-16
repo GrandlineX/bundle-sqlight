@@ -24,7 +24,7 @@ function aFilter<E extends CoreEntity>(
       }
       return `${key} != ?`;
     case 'like':
-      return `${key} like '%' || ? || '%'`;
+      return `lower(${key}) like '%' || lower(?) || '%'`;
     case 'smallerThan':
       return `${key} < ?`;
     case 'greaterThan':
