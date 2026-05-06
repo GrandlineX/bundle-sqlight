@@ -217,7 +217,7 @@ export default class SQLCon<
              FROM ${this.schemaName}.${className}
              WHERE e_id in (${e_id.map(() => '?').join(',')});`,
     );
-    return (query?.run([...e_id]).changes ?? 0) == e_id.length;
+    return (query?.run([...e_id]).changes ?? 0) === e_id.length;
   }
 
   async getEntityList<E extends CoreEntity>(
