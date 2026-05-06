@@ -1,26 +1,24 @@
 import {
-    CoreModule, JestLib,
+    CoreModule,
+    JestLib,
     setupDevKernel,
     TestContext,
     TestKernel,
-    XUtil,
 } from '@grandlinex/core';
 import { SQLCon } from '../index.js';
 
 const appName = 'TestKernel';
 const appCode = 'tkernel';
-const [testPath] =XUtil.setupEnvironment([__dirname,'..'],['data','config'])
 const [kernel] = TestContext.getEntity(
     {
-      kernel:new TestKernel(appName, appCode, testPath, __dirname),
-      cleanUpPath:testPath
+      kernel:new TestKernel(appName, appCode,__dirname),
+      cleanUp:true
     }
 );
 
 setupDevKernel(kernel, (mod) => {
   return {
     db: new SQLCon(mod, '0'),
-    // db: new InMemDB(mod),
   };
 });
 

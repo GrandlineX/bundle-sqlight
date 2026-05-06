@@ -96,7 +96,7 @@ export default class SQLCon<
       },
     ]);
 
-    return result[0] !== null;
+    return result[0].changes === 1;
   }
 
   async updateBulkEntity<E extends IEntity>(
@@ -178,6 +178,24 @@ export default class SQLCon<
     return null;
   }
 
+  async countEntity<E extends IEntity>(
+    config: EntityConfig<E>,
+    search: QInterfaceSearch<E>,
+  ): Promise<number> {
+    let searchQ = '';
+    const param: any[] = [];
+    if (search) {
+      searchQ = buildSearchQ<E>(config, search, param, searchQ);
+    }
+    const query = this.db?.prepare(
+      `SELECT COUNT(*) as count
+             FROM ${this.schemaName}.${config.className}
+             ${searchQ};`,
+    );
+    const res = query?.get(param) as any;
+    return res?.count ?? 0;
+  }
+
   async deleteEntityById(className: string, id: string): Promise<boolean> {
     const query = this.db?.prepare(
       `DELETE
@@ -199,7 +217,7 @@ export default class SQLCon<
              FROM ${this.schemaName}.${className}
              WHERE e_id in (${e_id.map(() => '?').join(',')});`,
     );
-    return (query?.run([...e_id]).changes ?? 0) > 1;
+    return (query?.run([...e_id]).changes ?? 0) == e_id.length;
   }
 
   async getEntityList<E extends CoreEntity>(
@@ -212,8 +230,14 @@ export default class SQLCon<
     let searchQ = '';
     const orderBy: string[] = [];
     let orderByQ = '';
-    const off = offset !== undefined ? ` OFFSET ${offset}` : '';
-    const range = limit ? `LIMIT ${limit}${off}` : '';
+    let or = '';
+    if (limit !== undefined && offset !== undefined) {
+      or = `LIMIT ${limit} OFFSET ${offset}`;
+    } else if (limit !== undefined) {
+      or = `LIMIT ${limit}`;
+    } else if (offset !== undefined) {
+      or = `LIMIT -1 OFFSET ${offset}`;
+    }
     const param: any[] = [];
     if (search) {
       searchQ = buildSearchQ<E>(config, search, param, searchQ);
@@ -229,7 +253,7 @@ export default class SQLCon<
              FROM ${this.schemaName}.${config.className}
              ${searchQ}
              ${orderByQ}
-             ${range};`);
+             ${or};`);
 
     const res = query?.all(param);
     if (res) {
@@ -319,6 +343,7 @@ export default class SQLCon<
       this.error(e);
       return false;
     }
+    this.setConnected();
     try {
       const query = this.db.prepare(
         `SELECT *
