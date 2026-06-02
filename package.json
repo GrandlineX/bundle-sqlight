@@ -1,6 +1,6 @@
 {
   "name": "@grandlinex/bundle-sqlight",
-  "version": "2.0.0-alpha.3",
+  "version": "2.0.0-alpha.4",
   "description": "",
   "type": "module",
   "exports": {
@@ -46,10 +46,10 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "@types/better-sqlite3": "7.6.13",
-    "better-sqlite3": "12.9.0"
+    "better-sqlite3": "12.10.0"
   },
   "peerDependencies": {
-    "@grandlinex/core": "2.0.0-alpha.3"
+    "@grandlinex/core": "2.0.0-alpha.4"
   },
   "devDependencies": {
     "@types/jest": "29.5.14",
@@ -70,7 +70,7 @@
     "ts-jest": "29.3.4",
     "ts-loader": "9.5.2",
     "ts-node": "10.9.2",
-    "typedoc": "0.28.10",
+    "typedoc": "0.28.19",
     "typescript": "5.9.2"
   },
   "repository": {
