@@ -17,6 +17,7 @@ import {
   QueryInterface,
   RawQuery,
   QInterfaceSearch,
+  RawQueryResult,
 } from '@grandlinex/core';
 import Database, { RunResult } from 'better-sqlite3';
 import {
@@ -36,8 +37,8 @@ export default class SQLCon<
     C extends ICoreCache | null = any,
     X extends ICorePresenter<any> | null = any,
   >
-  extends CoreDBCon<DbType, RunResult, K, T, P, C, X>
-  implements IDataBase<DbType, RunResult, K, T, P, C, X>
+  extends CoreDBCon<DbType, RunResult, null, K, T, P, C, X>
+  implements IDataBase<DbType, RunResult, null, K, T, P, C, X>
 {
   db: DbType | null;
 
@@ -74,8 +75,8 @@ export default class SQLCon<
                    VALUES (${values.join(', ')})`,
       param: params,
     };
-    const res = await this.execScripts([query]);
-    if (!res || !res[0]) {
+    const [res] = await this.runScripts(query);
+    if (res.changes !== 1) {
       throw this.lError('Cant Create entity');
     }
     return entity as E;
@@ -87,16 +88,13 @@ export default class SQLCon<
     entity: EUpDateProperties<E>,
   ): Promise<boolean> {
     const [, values, params] = objToTable(entity, config, true);
-    const result = await this.execScripts([
-      {
-        exec: `UPDATE ${this.schemaName}.${config.className}
+    const [result] = await this.runScripts({
+      exec: `UPDATE ${this.schemaName}.${config.className}
                            SET ${values.join(', ')}
                            WHERE e_id = ?;`,
-        param: [...params, e_id],
-      },
-    ]);
-
-    return result[0].changes === 1;
+      param: [...params, e_id],
+    });
+    return result.changes === 1;
   }
 
   async updateBulkEntity<E extends IEntity>(
@@ -108,16 +106,18 @@ export default class SQLCon<
       return false;
     }
     const [, values, params] = objToTable(entity, config, true);
-    const result = await this.execScripts([
-      {
+    try {
+      await this.runScripts({
         exec: `UPDATE ${this.schemaName}.${config.className}
                            SET ${values.join(', ')}
                            WHERE e_id in (${e_id.map(() => '?').join(',')});`,
         param: [...params, ...e_id],
-      },
-    ]);
-
-    return result[0] !== null;
+      });
+      return true;
+    } catch (e) {
+      this.error(e);
+      return false;
+    }
   }
 
   async getEntityById<E extends CoreEntity>(
@@ -266,15 +266,13 @@ export default class SQLCon<
     className: string,
     entity: E,
   ): Promise<boolean> {
-    await this.execScripts([
-      {
-        exec: `CREATE TABLE ${this.schemaName}.${className}
+    await this.runScripts({
+      exec: `CREATE TABLE ${this.schemaName}.${className}
                 (
                     ${this.transformEntityKeys<E>(entity)}
                 );`,
-        param: [],
-      },
-    ]);
+      param: [],
+    });
     return true;
   }
 
@@ -309,18 +307,12 @@ export default class SQLCon<
 
   async removeConfig(key: string): Promise<void> {
     try {
-      const query = await this.execScripts([
-        {
-          exec: `DELETE
+      await this.runScripts({
+        exec: `DELETE
                            FROM ${this.schemaName}.config
                            WHERE c_key = ?;`,
-          param: [key],
-        },
-      ]);
-      this.log(query);
-      if (query.length !== 1) {
-        this.error('invalid result');
-      }
+        param: [key],
+      });
     } catch (e) {
       this.error(e);
     }
@@ -358,7 +350,7 @@ export default class SQLCon<
       this.warn(e);
       this.log('Create new Database');
 
-      await this.execScripts([
+      await this.runScripts(
         {
           exec: `CREATE TABLE ${this.schemaName}.config
                            (
@@ -373,7 +365,7 @@ export default class SQLCon<
                            VALUES ('dbversion', '${this.dbVersion}');`,
           param: [],
         },
-      ]);
+      );
       this.setNew(true);
       return true;
     }
@@ -421,8 +413,8 @@ export default class SQLCon<
     return query?.get() as any;
   }
 
-  async execScripts(list: RawQuery[]): Promise<RunResult[]> {
-    const result: any[] = [];
+  async runScripts(...list: RawQuery[]): Promise<RunResult[]> {
+    const result: RunResult[] = [];
     list.forEach((el) => {
       const prep = this.db?.prepare(el.exec);
 
@@ -432,6 +424,21 @@ export default class SQLCon<
       }
     });
     return result;
+  }
+
+  async queryScript<E>(query: RawQuery): Promise<RawQueryResult<E, null>> {
+    if (!query.exec) {
+      this.warn('Emtpy Query');
+      return {
+        rows: [],
+        meta: null,
+      };
+    }
+    const prep = this.db!.prepare<unknown[], E>(query.exec);
+    return {
+      rows: prep!.all(query.param),
+      meta: null,
+    };
   }
 
   async disconnect(): Promise<boolean> {
