@@ -1,6 +1,6 @@
 {
   "name": "@grandlinex/bundle-sqlight",
-  "version": "3.0.0-alpha.2",
+  "version": "3.0.0-alpha.3",
   "description": "",
   "type": "module",
   "exports": {
@@ -46,10 +46,10 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "@types/better-sqlite3": "9.6.0",
-    "better-sqlite3": "13.0.2"
+    "better-sqlite3": "13.0.3"
   },
   "peerDependencies": {
-    "@grandlinex/core": "3.0.0-alpha.2"
+    "@grandlinex/core": "3.0.0-alpha.3"
   },
   "devDependencies": {
     "@types/jest": "29.5.14",
