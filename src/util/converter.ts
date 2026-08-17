@@ -1,8 +1,8 @@
 import {
-  ColumnProps,
+  type ColumnProps,
   CoreEntity,
-  EntityConfig,
-  EUpDateProperties,
+  type EntityConfig,
+  type EUpDateProperties,
 } from '@grandlinex/core';
 
 export function convertSpecialFields(

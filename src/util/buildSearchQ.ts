@@ -1,11 +1,11 @@
 import {
-  ColumnProps,
+  type ColumnProps,
   CoreEntity,
-  EntityConfig,
+  type EntityConfig,
   isQInterfaceSearchAdvanced,
   isQInterfaceSearchAdvancedArr,
-  QInterfaceSearch,
-  QInterfaceSearchAdvanced,
+  type QInterfaceSearch,
+  type QInterfaceSearchAdvanced,
 } from '@grandlinex/core';
 import { convertSpecialFields } from './converter.js';
 

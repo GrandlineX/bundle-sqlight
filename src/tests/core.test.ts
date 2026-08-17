@@ -1,10 +1,12 @@
 import {
     CoreModule,
-    JestLib,
+} from '@grandlinex/core';
+import {
+    TestLib,
     setupDevKernel,
     TestContext,
     TestKernel,
-} from '@grandlinex/core';
+} from '@grandlinex/core/dev';
 import { SQLCon } from '../index.js';
 
 const appName = 'TestKernel';
@@ -24,9 +26,9 @@ setupDevKernel(kernel, (mod) => {
 
 kernel.setBaseModule(new CoreModule(kernel,(mod)=> new SQLCon(mod,"0")))
 
-JestLib.jestStart();
-JestLib.jestCore();
-JestLib.jestDb();
-JestLib.jestEnd();
-JestLib.jestOrm();
+TestLib.testStart();
+TestLib.testCore();
+TestLib.testDb();
+TestLib.testEnd();
+TestLib.testOrm();
 

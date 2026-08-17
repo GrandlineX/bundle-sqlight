@@ -1,4 +1,4 @@
-import { DataType } from '@grandlinex/core';
+import type { DataType } from '@grandlinex/core';
 
 export default function resolveDBType(dType: DataType) {
   switch (dType) {
