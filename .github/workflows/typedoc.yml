@@ -11,10 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
 
       - name: Install dependencies
         run: npm install
@@ -22,11 +24,8 @@ jobs:
       - name: Create the docs directory locally in CI
         run: npm run makeDocs
 
-      - name: Add testreport to docs folder
-        run: npm run doc-converage
-
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: docs
